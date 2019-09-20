@@ -76,7 +76,7 @@ public void onCreate(Bundle savedInstanceState) {
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //...
-    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.ACTION_POWERSAVING);
+    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.actionPowerSaving);
     //...
 }
 ```
@@ -93,7 +93,7 @@ public void onCreate(Bundle savedInstanceState) {
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //...
-    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.ACTION_AUTOSTART);
+    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.actionAUTOSTART);
     //...
 }
 ```
@@ -110,7 +110,7 @@ public void onCreate(Bundle savedInstanceState) {
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //...
-    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.ACTION_NOTIFICATIONS);
+    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.actionNotifications);
     //...
 }
 ```
@@ -148,7 +148,7 @@ Samsung
 
 Acivity | Action | Extras | Result
 --- | --- | --- | ---
-N/A | com.samsung.android.sm.ACTION_SM_NOTIFICATION_SETTING | | KO Need permissions
+N/A | com.samsung.android.sm.actionSM_NOTIFICATION_SETTING | | KO Need permissions
 Huawei
 
 Acivity | Action | Extras | Result

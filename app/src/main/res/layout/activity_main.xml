@@ -10,28 +10,41 @@
         android:id="@+id/powerSavingManagerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="PowerSaving Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/autoStartManagerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="AutoStart Button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/powerSavingManagerButton"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/powerSavingManagerButton" />
+
     <Button
         android:id="@+id/notificationManagerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="Notification Button"
-        app:layout_constraintTop_toBottomOf="@id/powerSavingManagerButton"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autoStartManagerButton" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/idByDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enable dialog"
         android:checked="true"
-        app:layout_constraintTop_toBottomOf="@id/notificationManagerButton"/>
+        android:text="Enable dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notificationManagerButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

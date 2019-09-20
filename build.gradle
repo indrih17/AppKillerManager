@@ -1,7 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+    ext.kotlin_version = '1.3.50'
+
     repositories {
         google()
         jcenter()
@@ -9,9 +10,11 @@ buildscript {
         mavenLocal()
         maven { url 'https://maven.fabric.io/public' }
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -30,16 +33,15 @@ allprojects {
         mavenCentral()
         mavenLocal()
         maven { url 'https://maven.fabric.io/public' }
-        maven { name 'Sonatype ButterKnife SNAPSHOTs'; url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven {
+            name 'Sonatype ButterKnife SNAPSHOTs'
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.2'
 }
 
 ext{
@@ -51,7 +53,5 @@ ext{
     libModuleName = 'AppKillerManager'
     libModuleDesc = 'Android library to handle flaky App killer manager (Xiaomi, Huawei, letv, ...) and prevent from : not showing notification, services not start at boot, etc'
     libBintrayName = 'AppKillerManager'
-
-    androidxVersion1 = "1.1.0-alpha01"
 }
 
