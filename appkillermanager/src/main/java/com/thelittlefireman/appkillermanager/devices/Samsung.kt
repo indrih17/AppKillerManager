@@ -38,16 +38,16 @@ class Samsung : DeviceAbstract() {
     override fun isActionPowerSavingAvailable(context: Context): Boolean =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = false
+    override fun isActionAutoStartAvailable(): Boolean = false
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = false
+    override fun isActionNotificationAvailable(): Boolean = false
 
     override fun needToUseAlongWithActionDoseMode(): Boolean = true
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? {
-        var intent = ActionUtils.createIntent()
-        intent.action = samsungActionPowerSaving
-        if (ActionUtils.isIntentAvailable(context, intent))
+        val packageManager = context.packageManager
+        var intent = ActionUtils.createIntent(action = samsungActionPowerSaving)
+        if (ActionUtils.isIntentAvailable(packageManager, intent))
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 helpImages = listOf(helpImagePowerSaving),
@@ -56,7 +56,7 @@ class Samsung : DeviceAbstract() {
 
         // reset
         intent = ActionUtils.createIntent(samsungComponentNamesPowerSavingV3)
-        if (ActionUtils.isIntentAvailable(context, intent))
+        if (ActionUtils.isIntentAvailable(packageManager, intent))
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 helpImages = listOf(helpImagePowerSaving),
@@ -64,7 +64,7 @@ class Samsung : DeviceAbstract() {
             )
 
         intent = ActionUtils.createIntent(samsungComponentNamesPowerSavingV2)
-        if (ActionUtils.isIntentAvailable(context, intent))
+        if (ActionUtils.isIntentAvailable(packageManager, intent))
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 helpImages = listOf(helpImagePowerSaving),
@@ -72,7 +72,7 @@ class Samsung : DeviceAbstract() {
             )
 
         intent = ActionUtils.createIntent(samsungComponentNamesPowerSavingV1)
-        return if (ActionUtils.isIntentAvailable(context, intent))
+        return if (ActionUtils.isIntentAvailable(packageManager, intent))
             KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 helpImages = listOf(helpImagePowerSaving),

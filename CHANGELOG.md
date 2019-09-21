@@ -1,3 +1,8 @@
+### V4.0.0
+* Java -> Kotlin
+* Android -> AndroidX
+* Min sdk 15 -> 16.
+
 ### V3.0.0
 
 * Refractor to handle multiple intent to do one Action

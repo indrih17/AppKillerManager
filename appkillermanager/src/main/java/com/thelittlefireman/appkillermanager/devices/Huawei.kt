@@ -53,9 +53,9 @@ class Huawei : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = false
+    override fun isActionAutoStartAvailable(): Boolean = false
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = true
+    override fun isActionNotificationAvailable(): Boolean = true
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
         KillerManagerAction(
@@ -84,17 +84,16 @@ class Huawei : DeviceAbstract() {
             intentActionList = listOf(ActionUtils.createIntent(action = huaweiActionNotification))
         )
 
-    override fun getExtraDebugInformations(context: Context): String {
-        val result = super.getExtraDebugInformations(context)
+    override fun getExtraDebugInformations(packageManager: PackageManager): String {
+        val result = super.getExtraDebugInformations(packageManager)
         val stringBuilder = StringBuilder(result)
         stringBuilder.append("ROM_VERSION").append(emuiRomName)
         stringBuilder.append("HuaweiSystemManagerVersionMethod:")
-            .append(getHuaweiSystemManagerVersion(context))
-        val manager = context.packageManager
+            .append(getHuaweiSystemManagerVersion(packageManager))
         val info: PackageInfo
         var versionStr = ""
         try {
-            info = manager.getPackageInfo(huaweiSystemManagerPackageName, 0)
+            info = packageManager.getPackageInfo(huaweiSystemManagerPackageName, 0)
             versionStr = info.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -104,8 +103,8 @@ class Huawei : DeviceAbstract() {
         return stringBuilder.toString()
     }
 
-    private fun getComponentNameAutoStart(context: Context): ComponentName {
-        val mVersion = getHuaweiSystemManagerVersion(context)
+    private fun getComponentNameAutoStart(packageManager: PackageManager): ComponentName {
+        val mVersion = getHuaweiSystemManagerVersion(packageManager)
         return if (mVersion == 4 || mVersion == 5)
             componentNameList[1]
         else if (mVersion == 6)
@@ -130,13 +129,12 @@ class Huawei : DeviceAbstract() {
                     false
             }
 
-        private fun getHuaweiSystemManagerVersion(context: Context): Int {
+        private fun getHuaweiSystemManagerVersion(packageManager: PackageManager): Int {
             var version = 0
             var versionNum = 0
             var thirdPartFirtDigit = 0
             try {
-                val manager = context.packageManager
-                val info = manager.getPackageInfo(huaweiSystemManagerPackageName, 0)
+                val info = packageManager.getPackageInfo(huaweiSystemManagerPackageName, 0)
                 Log.i(Huawei::class.java.name, "manager info = $info")
                 val versionStr = info.versionName
                 val versionTmp =

@@ -1,9 +1,7 @@
 package com.thelittlefireman.appkillermanager_exemple
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.thelittlefireman.appkillermanager.managers.KillerManager
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
@@ -18,52 +16,50 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.i("MainActivity", Build.BRAND)
-        Log.i("MainActivity", Build.MANUFACTURER)
-        Log.i("MainActivity", Build.FINGERPRINT)
-
         LogUtils.registerLogCustomListener(object : LogUtils.LogCustomListener {
             override fun i(tag: String, message: String) {
                 // Custom Log
+            }
+
+            override fun w(tag: String, message: String) {
+                // Custom log
             }
 
             override fun e(tag: String, message: String?) {
                 // Custom Log
             }
         })
-        powerSavingManagerButton.setOnClickListener {
-            if (idByDialog.isChecked) {
-                val actionType = KillerManagerActionType.ActionPowerSaving
-                    .also { actionType = it }
 
+        powerSavingManagerButton.setOnClickListener {
+            val actionType = KillerManagerActionType.ActionPowerSaving
+                .also { actionType = it }
+
+            if (idByDialog.isChecked)
                 startDialog(actionType)
-            } else {
-                KillerManager.doAction(this@MainActivity, actionType)
-            }
+            else
+                KillerManager.doAction(this, actionType)
         }
         autoStartManagerButton.setOnClickListener {
-            if (idByDialog.isChecked) {
-                val actionType = KillerManagerActionType.ActionAutoStart
-                    .also { actionType = it }
+            val actionType = KillerManagerActionType.ActionAutoStart
+                .also { actionType = it }
 
+            if (idByDialog.isChecked)
                 startDialog(actionType)
-            } else {
-                KillerManager.doAction(this@MainActivity, actionType)
-            }
+            else
+                KillerManager.doAction(this, actionType)
         }
         notificationManagerButton.setOnClickListener {
-            if (idByDialog.isChecked) {
-                val actionType = KillerManagerActionType.ActionNotifications
-                    .also { actionType = it }
+            val actionType = KillerManagerActionType.ActionNotifications
+                .also { actionType = it }
 
+            if (idByDialog.isChecked)
                 startDialog(actionType)
-            } else {
-                KillerManager.doAction(this@MainActivity, actionType)
-            }
+            else
+                KillerManager.doAction(this, actionType)
         }
     }
 
-    fun startDialog(action: KillerManagerActionType) =
+    private fun startDialog(action: KillerManagerActionType) =
         DialogKillerManager(
             activity = this,
             killerManagerActionTypeList = listOf(action),
@@ -73,6 +69,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        KillerManager.onActivityResult(this@MainActivity, actionType, requestCode)
+        KillerManager.onActivityResult(this, actionType, requestCode)
     }
 }

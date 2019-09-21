@@ -15,10 +15,10 @@ import java.io.InputStreamReader
 
 object SystemUtils {
     val defaultDebugInformation: String
-        get() = "Display_id:" + Build.DISPLAY +
-                "MODEL:" + Build.MODEL +
-                "MANUFACTURER:" + Build.MANUFACTURER +
-                "PRODUCT:" + Build.PRODUCT
+        get() = "Display_id: " + Build.DISPLAY +
+                ", MODEL: " + Build.MODEL +
+                ", MANUFACTURER: " + Build.MANUFACTURER +
+                ", PRODUCT:" + Build.PRODUCT
 
     val emuiRomName: String?
         get() = try {

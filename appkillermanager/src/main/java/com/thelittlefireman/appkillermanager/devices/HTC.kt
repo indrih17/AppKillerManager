@@ -26,9 +26,9 @@ class HTC : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = false
+    override fun isActionAutoStartAvailable(): Boolean = false
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = false
+    override fun isActionNotificationAvailable(): Boolean = false
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
         KillerManagerAction(

@@ -31,16 +31,17 @@ class Meizu : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = true
+    override fun isActionAutoStartAvailable(): Boolean = true
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = true
+    override fun isActionNotificationAvailable(): Boolean = true
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? {
         var intent = ActionUtils.createIntent(
             action = MeizuPowerSavingAction
         )
-        val mSecVersion = getMeizuSecVersion(context)
-        if (ActionUtils.isIntentAvailable(context, intent)) {
+        val packageManager = context.packageManager
+        val mSecVersion = getMeizuSecVersion(packageManager)
+        if (ActionUtils.isIntentAvailable(packageManager, intent)) {
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 intentActionList = listOf(intent)
@@ -81,7 +82,7 @@ class Meizu : DeviceAbstract() {
     }
 
     override fun getActionNotification(context: Context): KillerManagerAction? {
-        val mSecVersion = getMeizuSecVersion(context)
+        val mSecVersion = getMeizuSecVersion(context.packageManager)
         val intent = ActionUtils.createIntent()
         return if (mSecVersion == MeizuSecurityCenterVersion.Sec37 || mSecVersion == MeizuSecurityCenterVersion.Sec41) {
             intent.component = ComponentName(MeizuDefaultPackage, MeizuNotificationActivity)
@@ -97,15 +98,14 @@ class Meizu : DeviceAbstract() {
         }
     }
 
-    override fun getExtraDebugInformations(context: Context): String {
-        val stringBuilder = StringBuilder(super.getExtraDebugInformations(context))
-        stringBuilder.append("MeizuSecVersionMethod:").append(getMeizuSecVersion(context))
+    override fun getExtraDebugInformations(packageManager: PackageManager): String {
+        val stringBuilder = StringBuilder(super.getExtraDebugInformations(packageManager))
+        stringBuilder.append("MeizuSecVersionMethod:").append(getMeizuSecVersion(packageManager))
 
-        val manager = context.packageManager
         val info: PackageInfo
         var versionStr = ""
         try {
-            info = manager.getPackageInfo(MeizuDefaultPackage, 0)
+            info = packageManager.getPackageInfo(MeizuDefaultPackage, 0)
             versionStr = info.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -118,20 +118,25 @@ class Meizu : DeviceAbstract() {
             .append(MeizuDefaultActionAppSpec)
             .append(
                 ActionUtils.isIntentAvailable(
-                    context,
+                    packageManager,
                     actionIntent = MeizuDefaultActionAppSpec
                 )
             )
 
         stringBuilder
             .append(MeizuPowerSavingAction)
-            .append(ActionUtils.isIntentAvailable(context, actionIntent = MeizuPowerSavingAction))
+            .append(
+                ActionUtils.isIntentAvailable(
+                    packageManager,
+                    actionIntent = MeizuPowerSavingAction
+                )
+            )
 
         stringBuilder
             .append(MeizuDefaultPackage + MeizuPowerSavingActivityV22)
             .append(
                 ActionUtils.isIntentAvailable(
-                    context,
+                    packageManager,
                     ComponentName(MeizuDefaultPackage, MeizuPowerSavingActivityV22)
                 )
             )
@@ -140,7 +145,7 @@ class Meizu : DeviceAbstract() {
             .append(MeizuDefaultPackage + MeizuPowerSavingActivityV34)
             .append(
                 ActionUtils.isIntentAvailable(
-                    context,
+                    packageManager,
                     ComponentName(MeizuDefaultPackage, MeizuPowerSavingActivityV34)
                 )
             )
@@ -149,14 +154,19 @@ class Meizu : DeviceAbstract() {
             .append(MeizuDefaultPackage + MeizuPowerSavingActivityV37)
             .append(
                 ActionUtils.isIntentAvailable(
-                    context,
+                    packageManager,
                     ComponentName(MeizuDefaultPackage, MeizuPowerSavingActivityV37)
                 )
             )
 
         stringBuilder
             .append(MeizuDefaultPackage + MeizuNotificationActivity)
-            .append(ActionUtils.isIntentAvailable(context, actionIntent = MeizuPowerSavingAction))
+            .append(
+                ActionUtils.isIntentAvailable(
+                    packageManager,
+                    actionIntent = MeizuPowerSavingAction
+                )
+            )
 
         return stringBuilder.toString()
     }
@@ -169,11 +179,10 @@ class Meizu : DeviceAbstract() {
         Sec41  //Meizu security center : 4.1.10
     }
 
-    private fun getMeizuSecVersion(context: Context): MeizuSecurityCenterVersion {
+    private fun getMeizuSecVersion(packageManager: PackageManager): MeizuSecurityCenterVersion {
         var v: MeizuSecurityCenterVersion
         try {
-            val manager = context.packageManager
-            val info = manager.getPackageInfo(MeizuDefaultPackage, 0)
+            val info = packageManager.getPackageInfo(MeizuDefaultPackage, 0)
             val versionStr = info.versionName //2.2.0922;
             Log.i("Meizu security center :", versionStr)
             v = when {

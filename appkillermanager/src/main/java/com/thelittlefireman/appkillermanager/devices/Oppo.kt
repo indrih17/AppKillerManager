@@ -36,14 +36,14 @@ class Oppo : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = true
+    override fun isActionAutoStartAvailable(): Boolean = true
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = true
+    override fun isActionNotificationAvailable(): Boolean = true
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? {
         val intentList = ActionUtils.createIntentList(oppoComponentsNamesPowerSavingColorOs)
 
-        return if (ActionUtils.isAtLeastOneIntentAvailable(context, intentList))
+        return if (ActionUtils.isAtLeastOneIntentAvailable(context.packageManager, intentList))
             KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 intentActionList = intentList
@@ -55,7 +55,8 @@ class Oppo : DeviceAbstract() {
     override fun getActionAutoStart(context: Context): KillerManagerAction? {
         var intentList: List<Intent> =
             ActionUtils.createIntentList(oppoComponentsNamesAutoStartColorOs30)
-        if (ActionUtils.isAtLeastOneIntentAvailable(context, intentList)) {
+        val packageManager = context.packageManager
+        if (ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)) {
             return KillerManagerAction(
                 KillerManagerActionType.ActionAutoStart,
                 intentActionList = intentList
@@ -63,7 +64,7 @@ class Oppo : DeviceAbstract() {
         }
 
         intentList = ActionUtils.createIntentList(oppoComponentsNamesAutoStartColorOs21)
-        if (ActionUtils.isAtLeastOneIntentAvailable(context, intentList)) {
+        if (ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)) {
             return KillerManagerAction(
                 KillerManagerActionType.ActionAutoStart,
                 intentActionList = intentList
@@ -71,7 +72,7 @@ class Oppo : DeviceAbstract() {
         }
 
         intentList = ActionUtils.createIntentList(oppoComponentsNamesAutoStartColorOsOlder)
-        return if (ActionUtils.isAtLeastOneIntentAvailable(context, intentList))
+        return if (ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList))
             KillerManagerAction(
                 KillerManagerActionType.ActionAutoStart,
                 intentActionList = intentList

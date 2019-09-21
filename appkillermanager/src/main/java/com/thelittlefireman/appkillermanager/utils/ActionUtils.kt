@@ -1,7 +1,6 @@
 package com.thelittlefireman.appkillermanager.utils
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -48,24 +47,26 @@ object ActionUtils {
     }
 
     fun isIntentAvailable(
-        ctx: Context,
+        packageManager: PackageManager,
         componentName: ComponentName? = null,
         actionIntent: String? = null
     ): Boolean =
-        isIntentAvailable(ctx, createIntent(componentName, actionIntent))
+        isIntentAvailable(packageManager, createIntent(componentName, actionIntent))
 
     fun isAtLeastOneIntentAvailable(
-        ctx: Context,
+        packageManager: PackageManager,
         killerManagerAction: KillerManagerAction
     ): Boolean =
-        isAtLeastOneIntentAvailable(ctx, killerManagerAction.intentActionList)
+        isAtLeastOneIntentAvailable(packageManager, killerManagerAction.intentActionList)
 
-    fun isAtLeastOneIntentAvailable(ctx: Context, intentList: List<Intent>): Boolean =
-        intentList.firstOrNull { isIntentAvailable(ctx, it) } != null
+    fun isAtLeastOneIntentAvailable(
+        packageManager: PackageManager,
+        intentList: List<Intent>
+    ): Boolean =
+        intentList.firstOrNull { isIntentAvailable(packageManager, it) } != null
 
-    fun isIntentAvailable(context: Context, intent: Intent): Boolean =
-        context
-            .packageManager
+    fun isIntentAvailable(packageManager: PackageManager, intent: Intent): Boolean =
+        packageManager
             .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
             .isNotEmpty()
 }

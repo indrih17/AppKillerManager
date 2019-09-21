@@ -24,10 +24,18 @@ object DevicesManager {
             .filter { it.isThatRom }
             .let { deviceList ->
                 deviceList.singleOrNull() ?: run {
-                    val logDevices = deviceList.joinToString { it.deviceManufacturer.toString() }
                     LogUtils.e(
                         DevicesManager::class.java.name,
-                        "MORE THAN ONE CORRESPONDING:$logDevices | ${SystemUtils.defaultDebugInformation}"
+                        if (deviceList.isEmpty())
+                            "Unsupported device"
+                        else
+                            "MORE THAN ONE CORRESPONDING: ${
+                            deviceList.joinToString { it.deviceManufacturer.toString() }
+                            }"
+                    )
+                    LogUtils.e(
+                        DevicesManager::class.java.name,
+                        SystemUtils.defaultDebugInformation
                     )
                     null
                 }

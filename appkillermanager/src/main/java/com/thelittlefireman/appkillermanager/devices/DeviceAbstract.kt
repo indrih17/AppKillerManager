@@ -1,7 +1,7 @@
 package com.thelittlefireman.appkillermanager.devices
 
 import android.content.Context
-import android.net.Uri
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
@@ -13,14 +13,14 @@ import com.thelittlefireman.appkillermanager.utils.LogUtils
 
 abstract class DeviceAbstract : DeviceBase {
     @CallSuper
-    override fun getExtraDebugInformations(context: Context): String {
+    override fun getExtraDebugInformations(packageManager: PackageManager): String {
         // ----- PACKAGE INFORMATIONS ----- //
         val resultBuilder = StringBuilder()
         componentNameList?.let { list ->
             for (componentName in list) {
                 resultBuilder.append(componentName.packageName + componentName.className)
                 resultBuilder.append(":")
-                resultBuilder.append(ActionUtils.isIntentAvailable(context, componentName))
+                resultBuilder.append(ActionUtils.isIntentAvailable(packageManager, componentName))
             }
         }
         intentActionList?.let { list ->
@@ -29,7 +29,7 @@ abstract class DeviceAbstract : DeviceBase {
                 resultBuilder.append(":")
                 resultBuilder.append(
                     ActionUtils.isIntentAvailable(
-                        context,
+                        packageManager,
                         actionIntent = intentAction
                     )
                 )
@@ -57,12 +57,10 @@ abstract class DeviceAbstract : DeviceBase {
 
             if (!ignoringBatteryOptimizations) {
                 val dozeIntent = ActionUtils.createIntent(
-                    action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS,
-                    data = Uri.parse("package:${context.packageName}")
+                    action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
                 )
                 // Cannot fire Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
                 // due to Google play device policy restriction !
-                // TODO add text
                 return KillerManagerAction(
                     KillerManagerActionType.ActionPowerSaving,
                     intentActionList = listOf(dozeIntent)

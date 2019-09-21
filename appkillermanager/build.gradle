@@ -1,20 +1,19 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "com.github.ben-manes.versions"
 apply plugin: 'kotlinx-serialization'
+apply plugin: "com.github.ben-manes.versions"
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode rootProject.ext.libVersionCode
         versionName rootProject.ext.libVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {

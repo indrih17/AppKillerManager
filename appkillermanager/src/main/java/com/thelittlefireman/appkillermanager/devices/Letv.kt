@@ -29,9 +29,9 @@ class Letv : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = true
+    override fun isActionAutoStartAvailable(): Boolean = true
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = false
+    override fun isActionNotificationAvailable(): Boolean = false
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
         KillerManagerAction(

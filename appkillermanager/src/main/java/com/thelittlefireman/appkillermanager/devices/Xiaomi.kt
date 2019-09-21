@@ -3,6 +3,7 @@ package com.thelittlefireman.appkillermanager.devices
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import com.thelittlefireman.appkillermanager.models.KillerManagerAction
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
@@ -35,9 +36,9 @@ class Xiaomi : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = true
+    override fun isActionAutoStartAvailable(): Boolean = true
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = false
+    override fun isActionNotificationAvailable(): Boolean = false
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction {
         val intent = ActionUtils.createIntent(action = miuiActionPowerSave)
@@ -65,18 +66,17 @@ class Xiaomi : DeviceAbstract() {
     override fun getActionNotification(context: Context): KillerManagerAction? =
         KillerManagerAction()
 
-    override fun getExtraDebugInformations(context: Context): String {
-        var rst = super.getExtraDebugInformations(context)
+    override fun getExtraDebugInformations(packageManager: PackageManager): String {
+        var rst = super.getExtraDebugInformations(packageManager)
         rst += miuiVersionNameProperty + miuiRomVersionName
         return rst
     }
 
     companion object {
-        // TODO TEST new Intent().setComponent(ComponentName("com.miui.securitycenter", "com.miui.powercenter.PowerSettings"))
-        private val miuiActionPerms = "miui.intent.action.APP_PERM_EDITOR"
-        private val miuiActionPermsExtra = "extra_pkgname"
+        private const val miuiActionPerms = "miui.intent.action.APP_PERM_EDITOR"
+        private const val miuiActionPermsExtra = "extra_pkgname"
 
-        // region ------ vars AUTOSTART
+        // region ------ vars power save
         private const val miuiPackagePowerSave = "com.miui.powerkeeper"
         //  OPEN DEFAULT LIST BATTERY SAVER
         private const val miuiActionPowerSaveList = "miui.intent.action.POWER_HIDE_MODE_APP_LIST"
@@ -103,7 +103,7 @@ class Xiaomi : DeviceAbstract() {
         private const val miuiPackageAutoStart = "com.miui.securitycenter"
         private val miuiComponentsNamesAutoStart = ComponentName(
             miuiPackageAutoStart,
-            "com.miui.permcenter.autostart.AutoStartDetailManagementActivity"
+            "com.miui.permcenter.autostart.AutoStartManagementActivity"
         )
 
         private const val miuiActionAutoStartExtraName = "pkg_name"

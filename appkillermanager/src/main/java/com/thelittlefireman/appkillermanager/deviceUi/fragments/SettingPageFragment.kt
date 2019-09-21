@@ -63,9 +63,6 @@ class SettingPageFragment : Fragment(), SettingPageFragmentClickListener {
                 } else {
                     view.md_promptCheckbox.visibility = View.GONE
                 }
-                /* //TODO CUSTOM MESSAGE FOR SPECIFITQUE ACTIONS AND SPECIFIC DEVICE
-            contentMessage.setText(String.format(getString(R.string.dialog_huawei_notification),
-                                                  getString(R.string.app_name)));*/
 
                 // Inflate the layout for this fragment
                 view.md_help_image_viewpager.adapter = object : PagerAdapter() {
@@ -116,7 +113,6 @@ class SettingPageFragment : Fragment(), SettingPageFragmentClickListener {
     }
 
     override fun onClickClose() {
-        //TODO
     }
 
     override fun startActivityForResult(intent: Intent, requestCode: Int) {

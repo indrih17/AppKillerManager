@@ -38,9 +38,9 @@ class Asus : DeviceAbstract() {
     override fun isActionPowerSavingAvailable(context: Context): Boolean =
         super.isActionDozeModeNotNecessary(context)
 
-    override fun isActionAutoStartAvailable(context: Context): Boolean = true
+    override fun isActionAutoStartAvailable(): Boolean = true
 
-    override fun isActionNotificationAvailable(context: Context): Boolean = true
+    override fun isActionNotificationAvailable(): Boolean = true
 
     // Juste need to use the regular battery non optimization permission =)
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
