@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">appkillermanager_exemple</string>
+    <string name="app_name" translatable="false">killermanager_example</string>
+    <string name="optimization_not_available" translatable="false">optimization not available</string>
 </resources>

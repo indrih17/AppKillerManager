@@ -82,12 +82,8 @@ class Samsung : DeviceAbstract() {
             KillerManagerAction()
     }
 
-    // FIXME Currently not working : not available, ITS NOT AUTOSTART ITS MEMORY MANAGER
-    override fun getActionAutoStart(context: Context): KillerManagerAction? =
-        KillerManagerAction(
-            KillerManagerActionType.ActionAutoStart,
-            intentActionList = listOf(ActionUtils.createIntent(samsungComponentNamesMemoryManagerV3))
-        )
+    // FIXME
+    override fun getActionAutoStart(context: Context): KillerManagerAction? = null
 
     // FIXME : NOTWORKOING NEED PERMISSIONS SETTINGS OR SOMETHINGS ELSE
     override fun getActionNotification(context: Context): KillerManagerAction? =
