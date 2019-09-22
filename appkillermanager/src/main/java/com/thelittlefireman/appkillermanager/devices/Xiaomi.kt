@@ -24,14 +24,14 @@ class Xiaomi : DeviceAbstract() {
         }
 
     override val componentNameList: List<ComponentName> = listOf(
-        miuiComponentsNamesAutoStart,
-        miuiComponentsNamesPowerSave,
-        miuiComponentsNamesPowerSaveList
+        componentsNamesAutoStart,
+        componentsNamesPowerSave,
+        componentsNamesPowerSaveList
     )
 
     override val intentActionList: List<String> = listOf(
-        miuiActionPowerSaveList,
-        miuiActionAutoStartList
+        actionPowerSaveList,
+        actionAutoStartList
     )
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
@@ -41,9 +41,9 @@ class Xiaomi : DeviceAbstract() {
     override fun isActionNotificationAvailable(): Boolean = false
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction {
-        val intent = ActionUtils.createIntent(action = miuiActionPowerSave)
-        intent.putExtra(miuiActionPowerSaveExtraName, context.packageName)
-        intent.putExtra(miuiActionPowerSaveExtraLabel, SystemUtils.getApplicationName(context))
+        val intent = ActionUtils.createIntent(action = actionPowerSave)
+        intent.putExtra(actionPowerSaveExtraName, context.packageName)
+        intent.putExtra(actionPowerSaveExtraLabel, SystemUtils.getApplicationName(context))
         return KillerManagerAction(
             KillerManagerActionType.ActionPowerSaving,
             intentActionList = listOf(intent)
@@ -51,12 +51,12 @@ class Xiaomi : DeviceAbstract() {
     }
 
     override fun getActionAutoStart(context: Context): KillerManagerAction {
-        val intent = ActionUtils.createIntent(miuiComponentsNamesAutoStart)
-        intent.putExtra(miuiActionAutoStartExtraName, context.packageName)
-        intent.putExtra(miuiActionAutoStartExtraLabel, SystemUtils.getApplicationName(context))
-        intent.putExtra(miuiActionAutoStartExtraAction, 3)
-        intent.putExtra(miuiActionAutoStartExtraPosition, -1)
-        intent.putExtra(miuiActionAutoStartExtraWhiteList, false)
+        val intent = ActionUtils.createIntent(componentsNamesAutoStart)
+        intent.putExtra(actionAutoStartExtraName, context.packageName)
+        intent.putExtra(actionAutoStartExtraLabel, SystemUtils.getApplicationName(context))
+        intent.putExtra(actionAutoStartExtraAction, 3)
+        intent.putExtra(actionAutoStartExtraPosition, -1)
+        intent.putExtra(actionAutoStartExtraWhiteList, false)
         return KillerManagerAction(
             KillerManagerActionType.ActionAutoStart,
             intentActionList = listOf(intent)
@@ -68,64 +68,55 @@ class Xiaomi : DeviceAbstract() {
 
     override fun getExtraDebugInformations(packageManager: PackageManager): String {
         var rst = super.getExtraDebugInformations(packageManager)
-        rst += miuiVersionNameProperty + miuiRomVersionName
+        rst += versionNameProperty + miuiRomVersionName
         return rst
     }
 
     companion object {
-        private const val miuiActionPerms = "miui.intent.action.APP_PERM_EDITOR"
-        private const val miuiActionPermsExtra = "extra_pkgname"
+        // PACKAGE
+        private const val packagePowerSave = "com.miui.powerkeeper"
+        private const val packageAutoStart = "com.miui.securitycenter"
 
-        // region ------ vars power save
-        private const val miuiPackagePowerSave = "com.miui.powerkeeper"
-        //  OPEN DEFAULT LIST BATTERY SAVER
-        private const val miuiActionPowerSaveList = "miui.intent.action.POWER_HIDE_MODE_APP_LIST"
-        private val miuiComponentsNamesPowerSaveList = ComponentName(
-            miuiPackagePowerSave,
+        // ACTION
+        private const val actionPowerSave = "miui.intent.action.HIDDEN_APPS_CONFIG_ACTIVITY"
+        private const val actionPowerSaveList = "miui.intent.action.POWER_HIDE_MODE_APP_LIST"
+        private const val actionAutoStartList = "miui.intent.action.OP_AUTO_START"
+        private const val actionPerms = "miui.intent.action.APP_PERM_EDITOR"
+        private const val actionPermsExtra = "extra_pkgname"
+        private const val actionPowerSaveExtraName = "package_name"
+        private const val actionPowerSaveExtraLabel = "package_label"
+        private const val actionAutoStartExtraName = "pkg_name"
+        private const val actionAutoStartExtraLabel = "pkg_label"
+        private const val actionAutoStartExtraAction = "action" // default 3 unknown parameter
+        private const val actionAutoStartExtraPosition =
+            "pkg_position" // default -1 unknown position
+        private const val actionAutoStartExtraWhiteList =
+            "white_list" // default need to be false to be handle
+
+        // COMPONENT
+        private val componentsNamesPowerSaveList = ComponentName(
+            packagePowerSave,
             "com.miui.powerkeeper.ui.HiddenAppsContainerManagementActivity"
         ) // == ACTION POWER_HIDE_MODE_APP_LIST
-
-        //  OPEN DEFAULT LIST BATTERY SAVER
-        private const val miuiActionPowerSave = "miui.intent.action.HIDDEN_APPS_CONFIG_ACTIVITY"
-
         // ONE SPECIFIQUE APP == ACTION miui.intent.action.HIDDEN_APPS_CONFIG_ACTIVITY
-        private val miuiComponentsNamesPowerSave = ComponentName(
-            miuiPackagePowerSave,
+        private val componentsNamesPowerSave = ComponentName(
+            packagePowerSave,
             "com.miui.powerkeeper.ui.HiddenAppsConfigActivity"
         )
-
-        private const val miuiActionPowerSaveExtraName = "package_name"
-        private const val miuiActionPowerSaveExtraLabel = "package_label"
-        // endregion
-
-        // region ------ vars AUTOSTART
-        private const val miuiActionAutoStartList = "miui.intent.action.OP_AUTO_START"
-        private const val miuiPackageAutoStart = "com.miui.securitycenter"
-        private val miuiComponentsNamesAutoStart = ComponentName(
-            miuiPackageAutoStart,
+        private val componentsNamesAutoStart = ComponentName(
+            packageAutoStart,
             "com.miui.permcenter.autostart.AutoStartManagementActivity"
         )
 
-        private const val miuiActionAutoStartExtraName = "pkg_name"
-        private const val miuiActionAutoStartExtraLabel = "pkg_label"
-        private const val miuiActionAutoStartExtraAction = "action" // default 3 unknown parameter
-        private const val miuiActionAutoStartExtraPosition =
-            "pkg_position" // default -1 unknown position
-        private const val miuiActionAutoStartExtraWhiteList =
-            "white_list" // default need to be false to be handle
-
-        // endregion
-
-        private const val miuiVersionNameProperty = "ro.miui.ui.version.name"
-
+        // VERSION
+        private const val versionNameProperty = "ro.miui.ui.version.name"
         private val miuiRomVersionName: String
             get() =
                 try {
-                    SystemUtils.getSystemProperty(miuiVersionNameProperty) ?: ""
+                    SystemUtils.getSystemProperty(versionNameProperty) ?: ""
                 } catch (e: Exception) {
                     LogUtils.e(SystemUtils::class.java.name, e.message)
                     ""
                 }
     }
-
 }

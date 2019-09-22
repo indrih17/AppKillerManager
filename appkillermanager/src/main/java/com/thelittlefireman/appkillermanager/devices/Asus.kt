@@ -29,8 +29,8 @@ class Asus : DeviceAbstract() {
     private val helpImageNotification: Int = R.drawable.asus_notification
 
     override val componentNameList: List<ComponentName> = listOf(
-        asusComponentNameAutoStart,
-        asusComponentNameNotification
+        componentNameAutoStart,
+        componentNameNotification
     )
 
     override val intentActionList: List<String>? = null
@@ -42,12 +42,12 @@ class Asus : DeviceAbstract() {
 
     override fun isActionNotificationAvailable(): Boolean = true
 
-    // Juste need to use the regular battery non optimization permission =)
+    // Just need to use the regular battery non optimization permission =)
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
         super.getActionDozeMode(context)
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? {
-        val intent = ActionUtils.createIntent(asusComponentNameAutoStart)
+        val intent = ActionUtils.createIntent(componentNameAutoStart)
         intent.putExtra("showNotice", true)
         return KillerManagerAction(
             KillerManagerActionType.ActionAutoStart,
@@ -58,7 +58,7 @@ class Asus : DeviceAbstract() {
 
     override fun getActionNotification(context: Context): KillerManagerAction? {
         // Need to click on notifications items
-        val intent = ActionUtils.createIntent(asusComponentNameNotification)
+        val intent = ActionUtils.createIntent(componentNameNotification)
         intent.putExtra("showNotice", true)
         return KillerManagerAction(
             KillerManagerActionType.ActionNotifications,
@@ -68,15 +68,17 @@ class Asus : DeviceAbstract() {
     }
 
     companion object {
-        private const val asusPackageMobileManager = "com.asus.mobilemanager"
+        // PACKAGE
+        private const val packageMobileManager = "com.asus.mobilemanager"
 
-        private val asusComponentNameNotification = ComponentName(
-            asusPackageMobileManager,
+        // COMPONENT
+        private val componentNameNotification = ComponentName(
+            packageMobileManager,
             "com.asus.mobilemanager.entry.FunctionActivity"
         )
 
-        private val asusComponentNameAutoStart = ComponentName(
-            asusPackageMobileManager,
+        private val componentNameAutoStart = ComponentName(
+            packageMobileManager,
             "com.asus.mobilemanager.autostart.AutoStartActivity"
         )
     }

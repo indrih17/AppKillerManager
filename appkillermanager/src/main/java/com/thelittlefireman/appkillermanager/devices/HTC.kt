@@ -20,7 +20,7 @@ class HTC : DeviceAbstract() {
                     Build.FINGERPRINT.toLowerCase().contains(manufacturer)
         }
 
-    override val componentNameList: List<ComponentName> = listOf(htcComponentNamePowerSaving)
+    override val componentNameList: List<ComponentName> = listOf(componentNamePowerSaving)
 
     override val intentActionList: List<String>? = null
 
@@ -33,7 +33,7 @@ class HTC : DeviceAbstract() {
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
         KillerManagerAction(
             KillerManagerActionType.ActionPowerSaving,
-            intentActionList = listOf(ActionUtils.createIntent(htcComponentNamePowerSaving))
+            intentActionList = listOf(ActionUtils.createIntent(componentNamePowerSaving))
         )
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? =
@@ -45,9 +45,12 @@ class HTC : DeviceAbstract() {
     override fun needToUseAlongWithActionDoseMode(): Boolean = true
 
     companion object {
-        private const val htcPitroadPackageName = "com.htc.pitroad"
-        private val htcComponentNamePowerSaving = ComponentName(
-            htcPitroadPackageName,
+        // PACKAGE
+        private const val packagePitroad = "com.htc.pitroad"
+
+        // COMPONENT
+        private val componentNamePowerSaving = ComponentName(
+            packagePitroad,
             "com.htc.pitroad.landingpage.activity.LandingPageActivity"
         )
     }

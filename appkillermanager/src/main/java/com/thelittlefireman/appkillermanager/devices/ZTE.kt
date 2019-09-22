@@ -48,13 +48,14 @@ class ZTE : DeviceAbstract() {
     override fun getActionNotification(context: Context): KillerManagerAction? = null
 
     companion object {
+        // PACKAGE
         private const val ztePackageName = "com.zte.heartyservice"
 
+        // COMPONENT
         private val zteComponentNamesAutoStart = ComponentName(
             ztePackageName,
             "com.zte.heartyservice.autorun.AppAutoRunManager"
         )
-
         private val zteComponentNamesPowerSave = ComponentName(
             ztePackageName,
             "com.zte.heartyservice.setting.ClearAppSettingsActivity"

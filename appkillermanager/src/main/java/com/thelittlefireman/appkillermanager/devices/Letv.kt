@@ -49,15 +49,16 @@ class Letv : DeviceAbstract() {
         KillerManagerAction()
 
     companion object {
-        private const val letvPackage = "com.letv.android.letvsafe"
+        // PACKAGE
+        private const val packageDef = "com.letv.android.letvsafe"
 
+        // COMPONENT
         private val letvComponentNamesPowerSave = ComponentName(
-            letvPackage,
+            packageDef,
             "com.letv.android.letvsafe.BackgroundAppManageActivity"
         )
-
         private val letvComponentNamesAutoStart = ComponentName(
-            letvPackage,
+            packageDef,
             "com.letv.android.letvsafe.AutobootManageActivity"
         )
     }

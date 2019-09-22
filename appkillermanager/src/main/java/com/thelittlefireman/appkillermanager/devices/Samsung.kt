@@ -26,13 +26,13 @@ class Samsung : DeviceAbstract() {
     private val helpImagePowerSaving: Int = R.drawable.samsung
 
     override val componentNameList: List<ComponentName> = listOf(
-        samsungComponentNamesPowerSavingV1,
-        samsungComponentNamesPowerSavingV2,
-        samsungComponentNamesPowerSavingV3,
-        samsungComponentNamesMemoryManagerV3
+        componentNamesPowerSavingV1,
+        componentNamesPowerSavingV2,
+        componentNamesPowerSavingV3,
+        componentNamesMemoryManagerV3
     )
 
-    override val intentActionList: List<String> = samsungIntentActions
+    override val intentActionList: List<String> = intentActions
 
     // SmartManager is not available before lollipop version
     override fun isActionPowerSavingAvailable(context: Context): Boolean =
@@ -46,7 +46,7 @@ class Samsung : DeviceAbstract() {
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? {
         val packageManager = context.packageManager
-        var intent = ActionUtils.createIntent(action = samsungActionPowerSaving)
+        var intent = ActionUtils.createIntent(action = actionPowerSaving)
         if (ActionUtils.isIntentAvailable(packageManager, intent))
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
@@ -55,7 +55,7 @@ class Samsung : DeviceAbstract() {
             )
 
         // reset
-        intent = ActionUtils.createIntent(samsungComponentNamesPowerSavingV3)
+        intent = ActionUtils.createIntent(componentNamesPowerSavingV3)
         if (ActionUtils.isIntentAvailable(packageManager, intent))
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
@@ -63,7 +63,7 @@ class Samsung : DeviceAbstract() {
                 intentActionList = listOf(intent)
             )
 
-        intent = ActionUtils.createIntent(samsungComponentNamesPowerSavingV2)
+        intent = ActionUtils.createIntent(componentNamesPowerSavingV2)
         if (ActionUtils.isIntentAvailable(packageManager, intent))
             return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
@@ -71,7 +71,7 @@ class Samsung : DeviceAbstract() {
                 intentActionList = listOf(intent)
             )
 
-        intent = ActionUtils.createIntent(samsungComponentNamesPowerSavingV1)
+        intent = ActionUtils.createIntent(componentNamesPowerSavingV1)
         return if (ActionUtils.isIntentAvailable(packageManager, intent))
             KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
@@ -89,49 +89,50 @@ class Samsung : DeviceAbstract() {
     override fun getActionNotification(context: Context): KillerManagerAction? =
         KillerManagerAction(
             KillerManagerActionType.ActionNotifications,
-            intentActionList = listOf(ActionUtils.createIntent(action = samsungActionNotification))
+            intentActionList = listOf(ActionUtils.createIntent(action = actionNotification))
         )
 
     companion object {
-        // crash "com.samsung.android.lool","com.samsung.android.sm.ui.battery.AppSleepListActivity"
-        private const val samsungActionPowerSaving = "com.samsung.android.sm.ACTION_BATTERY"
-        private const val samsungActionNotification =
-            "com.samsung.android.sm.ACTION_SM_NOTIFICATION_SETTING"
+        // PACKAGE
         private const val packageMemoryManager = "com.samsung.memorymanager"
+        // ANDROID 5.0/5.1
+        private const val packagePowerSavingV1 = "com.samsung.android.sm"
+        // ANDROID 6.0
+        private const val packagePowerSavingV2 = "com.samsung.android.sm_cn"
+        // ANDROID 7.0
+        private const val packagePowerSavingV3 = "com.samsung.android.lool"
+
+        // ACTION
+        // crash "com.samsung.android.lool","com.samsung.android.sm.ui.battery.AppSleepListActivity"
+        private const val actionPowerSaving = "com.samsung.android.sm.ACTION_BATTERY"
+        private const val actionNotification =
+            "com.samsung.android.sm.ACTION_SM_NOTIFICATION_SETTING"
         private const val batteryActivity = "com.samsung.android.sm.ui.battery.BatteryActivity"
+        private val intentActions = listOf(
+            actionPowerSaving,
+            actionNotification
+        )
 
-        // ANDROID 7.0
-        private const val samsungPowerSavingPackageV3 = "com.samsung.android.lool"
-
-        // ANDROID 6.0
-        private const val samsungPowerSavingPackageV2 = "com.samsung.android.sm_cn"
-
+        // ACTION
         // ANDROID 5.0/5.1
-        private const val samsungPowerSavingPackageV1 = "com.samsung.android.sm"
-
-        // ANDROID 5.0/5.1
-        private val samsungComponentNamesPowerSavingV1 = ComponentName(
-            samsungPowerSavingPackageV1,
+        private val componentNamesPowerSavingV1 = ComponentName(
+            packagePowerSavingV1,
             batteryActivity
         )
         // ANDROID 6.0
-        private val samsungComponentNamesPowerSavingV2 = ComponentName(
-            samsungPowerSavingPackageV2,
+        private val componentNamesPowerSavingV2 = ComponentName(
+            packagePowerSavingV2,
             batteryActivity
         )
         // ANDROID 7.0
-        private val samsungComponentNamesPowerSavingV3 = ComponentName(
-            samsungPowerSavingPackageV3,
+        private val componentNamesPowerSavingV3 = ComponentName(
+            packagePowerSavingV3,
             batteryActivity
         )
-
         // MEMORY MANAGER (NOT WORKING)
-        private val samsungComponentNamesMemoryManagerV3 =
-            ComponentName(packageMemoryManager, "com.samsung.memorymanager.RamActivity")
-
-        private val samsungIntentActions = listOf(
-            samsungActionPowerSaving,
-            samsungActionNotification
+        private val componentNamesMemoryManagerV3 = ComponentName(
+            packageMemoryManager,
+            "com.samsung.memorymanager.RamActivity"
         )
     }
 }

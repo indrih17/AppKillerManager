@@ -46,7 +46,10 @@ class OnePlus : DeviceAbstract() {
         KillerManagerAction()
 
     companion object {
+        // PACKAGE
         private const val onePlusPackage = "com.oneplus.security"
+
+        // COMPONENT
         private val onePlusComponentNames = ComponentName(
             onePlusPackage,
             "com.oneplus.security.chainlaunch.view.ChainLaunchAppListActivity"

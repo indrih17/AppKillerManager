@@ -46,92 +46,11 @@ Android Custom Roms made sometimes your apps unfunctional due to :
 
 ##### Add it on your Android app
 
-```groovy
-dependencies {
-    implementation 'com.github.indrih17:AppKillerManager:4.0.0-alpha1'
-}
-```
+Currently unavailable
 
 ### Step 2
 
-Use with a custom dialog:
-
- <img src="IMG/screenshot_dialog.png" width="216" height="384">
-
-```Java
-    public void startDialog(KillerManagerAction killerManagerAction) {
-        new DialogKillerManagerBuilder().setContext(this).setAction(killerManagerAction).show();
-    }
-```
-
-Or use it directly :
-```Java
-@Override
-public void onCreate(Bundle savedInstanceState) {
-    //...
-    // Open the corresponding Power Saving Settings
-    KillerManager.init(mContext);
-    KillerManager.doActionPowerSaving(mActivity);
-    //...
-}
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    //...
-    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.actionPowerSaving);
-    //...
-}
-```
-```Java
-@Override
-public void onCreate(Bundle savedInstanceState) {
-    //...
-    // Open the corresponding Auto Start permission Settings
-    KillerManager.init(mContext);
-    KillerManager.doActionAutoStart(mActivity);
-    //...
-}
-
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    //...
-    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.actionAUTOSTART);
-    //...
-}
-```
-```Java
-@Override
-public void onCreate(Bundle savedInstanceState) {
-    //...
-    // Open the corresponding Notification permission Settings
-    KillerManager.init(mContext);
-    KillerManager.doActionNotification(mActivity);
-    //...
-}
-
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    //...
-    KillerManager.onActivityResultonActivityResult(mContext,KillerManagerAction.actionNotifications);
-    //...
-}
-```
-
-You can add custom logs //Please add it to send me logs to improve the library
-```java
-        LogUtils.registerLogCustomListener(new LogUtils.LogCustomListener() {
-            @Override
-            public void i(String tag, String message) {
-                // Custom Log
-                Crashlytics.log(int priority, tag, message);
-            }
-
-            @Override
-            public void e(String tag, String message) {
-                // Custom Log
-                Crashlytics.logException(new Exception(tag+message));
-            }
-        });
-```
+Introduce in your app. [Example](https://github.com/indrih17/AppKillerManager/blob/develop_v4.0/app/src/main/java/com/thelittlefireman/appkillermanager_exemple/MainActivity.kt)
 
 ### Working phone & related views :
 
@@ -175,6 +94,7 @@ Version (com.meizu.safe) | Acivity | Action | Extras | Result
 
 ## Maintainers
 [thelittlefireman](https://github.com/thelittlefireman)
+[Indrih](https://github.com/indrih17)
 
 ## TODO :
   - Test on all devices

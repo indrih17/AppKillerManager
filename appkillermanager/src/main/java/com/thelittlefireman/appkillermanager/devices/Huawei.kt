@@ -32,23 +32,23 @@ class Huawei : DeviceAbstract() {
 
     override val componentNameList: List<ComponentName> = listOf(
         ComponentName(
-            huaweiSystemManagerPackageName,
+            packageSystemManager,
             "com.huawei.systemmanager.optimize.bootstart.BootStartActivity"
         ),
         ComponentName(
-            huaweiSystemManagerPackageName,
+            packageSystemManager,
             "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity"
         ),
         ComponentName(
-            huaweiSystemManagerPackageName,
+            packageSystemManager,
             "com.huawei.permissionmanager.ui.MainActivity"
         )
     )
 
     override val intentActionList: List<String> = listOf(
-        huaweiActionPowerSaving,
-        huaweiActionAutoStart,
-        huaweiActionNotification
+        actionPowerSaving,
+        actionAutoStart,
+        actionNotification
     )
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
@@ -61,14 +61,14 @@ class Huawei : DeviceAbstract() {
         KillerManagerAction(
             KillerManagerActionType.ActionPowerSaving,
             helpImages = listOf(helpImagePowerSaving),
-            intentActionList = listOf(ActionUtils.createIntent(action = huaweiActionPowerSaving))
+            intentActionList = listOf(ActionUtils.createIntent(action = actionPowerSaving))
         )
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? {
         // AUTOSTART not used in huawei
         return KillerManagerAction()
         /*Intent intent = ActionUtils.createIntent();
-        intent.setAction(huaweiActionAutoStart);
+        intent.setAction(actionAutoStart);
         if (ActionUtils.isIntentAvailable(context, intent)) {
             return intent;
         } else {
@@ -81,19 +81,19 @@ class Huawei : DeviceAbstract() {
     override fun getActionNotification(context: Context): KillerManagerAction? =
         KillerManagerAction(
             KillerManagerActionType.ActionNotifications,
-            intentActionList = listOf(ActionUtils.createIntent(action = huaweiActionNotification))
+            intentActionList = listOf(ActionUtils.createIntent(action = actionNotification))
         )
 
     override fun getExtraDebugInformations(packageManager: PackageManager): String {
         val result = super.getExtraDebugInformations(packageManager)
         val stringBuilder = StringBuilder(result)
         stringBuilder.append("ROM_VERSION").append(emuiRomName)
-        stringBuilder.append("HuaweiSystemManagerVersionMethod:")
+        stringBuilder.append("HuaweiSystemManagerVersionMethod: ")
             .append(getHuaweiSystemManagerVersion(packageManager))
         val info: PackageInfo
         var versionStr = ""
         try {
-            info = packageManager.getPackageInfo(huaweiSystemManagerPackageName, 0)
+            info = packageManager.getPackageInfo(packageSystemManager, 0)
             versionStr = info.versionName
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -103,21 +103,14 @@ class Huawei : DeviceAbstract() {
         return stringBuilder.toString()
     }
 
-    private fun getComponentNameAutoStart(packageManager: PackageManager): ComponentName {
-        val mVersion = getHuaweiSystemManagerVersion(packageManager)
-        return if (mVersion == 4 || mVersion == 5)
-            componentNameList[1]
-        else if (mVersion == 6)
-            componentNameList[2]
-        else
-            componentNameList[0]
-    }
-
     companion object {
-        private const val huaweiSystemManagerPackageName = "com.huawei.systemmanager"
-        private const val huaweiActionPowerSaving = "huawei.intent.action.HSM_PROTECTED_APPS"
-        private const val huaweiActionAutoStart = "huawei.intent.action.HSM_BOOTAPP_MANAGER"
-        private const val huaweiActionNotification = "huawei.intent.action.NOTIFICATIONMANAGER"
+        // PACKAGE
+        private const val packageSystemManager = "com.huawei.systemmanager"
+
+        // ACTION
+        private const val actionPowerSaving = "huawei.intent.action.HSM_PROTECTED_APPS"
+        private const val actionAutoStart = "huawei.intent.action.HSM_BOOTAPP_MANAGER"
+        private const val actionNotification = "huawei.intent.action.NOTIFICATIONMANAGER"
 
         private val isEmotionUI: Boolean
             @SuppressLint("DefaultLocale")
@@ -134,7 +127,7 @@ class Huawei : DeviceAbstract() {
             var versionNum = 0
             var thirdPartFirtDigit = 0
             try {
-                val info = packageManager.getPackageInfo(huaweiSystemManagerPackageName, 0)
+                val info = packageManager.getPackageInfo(packageSystemManager, 0)
                 Log.i(Huawei::class.java.name, "manager info = $info")
                 val versionStr = info.versionName
                 val versionTmp =

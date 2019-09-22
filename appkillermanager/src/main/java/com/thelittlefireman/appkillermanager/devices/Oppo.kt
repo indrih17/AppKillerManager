@@ -24,11 +24,11 @@ class Oppo : DeviceAbstract() {
     override val componentNameList: List<ComponentName>
         get() {
             val rst = ArrayList<ComponentName>()
-            rst.addAll(oppoComponentsNamesAutoStartColorOs30)
-            rst.addAll(oppoComponentsNamesAutoStartColorOs21)
-            rst.addAll(oppoComponentsNamesAutoStartColorOsOlder)
-            rst.addAll(oppoComponentsNamesPowerSavingColorOs)
-            rst.add(oppoComponentsNamesNotificationColorOs)
+            rst.addAll(componentsNamesAutoStartColorOs30)
+            rst.addAll(componentsNamesAutoStartColorOs21)
+            rst.addAll(componentsNamesAutoStartColorOsOlder)
+            rst.addAll(componentsNamesPowerSavingColorOs)
+            rst.add(componentNamesNotificationColorOs)
             return rst
         }
 
@@ -41,7 +41,7 @@ class Oppo : DeviceAbstract() {
     override fun isActionNotificationAvailable(): Boolean = true
 
     override fun getActionPowerSaving(context: Context): KillerManagerAction? {
-        val intentList = ActionUtils.createIntentList(oppoComponentsNamesPowerSavingColorOs)
+        val intentList = ActionUtils.createIntentList(componentsNamesPowerSavingColorOs)
 
         return if (ActionUtils.isAtLeastOneIntentAvailable(context.packageManager, intentList))
             KillerManagerAction(
@@ -54,7 +54,7 @@ class Oppo : DeviceAbstract() {
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? {
         var intentList: List<Intent> =
-            ActionUtils.createIntentList(oppoComponentsNamesAutoStartColorOs30)
+            ActionUtils.createIntentList(componentsNamesAutoStartColorOs30)
         val packageManager = context.packageManager
         if (ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)) {
             return KillerManagerAction(
@@ -63,7 +63,7 @@ class Oppo : DeviceAbstract() {
             )
         }
 
-        intentList = ActionUtils.createIntentList(oppoComponentsNamesAutoStartColorOs21)
+        intentList = ActionUtils.createIntentList(componentsNamesAutoStartColorOs21)
         if (ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)) {
             return KillerManagerAction(
                 KillerManagerActionType.ActionAutoStart,
@@ -71,7 +71,7 @@ class Oppo : DeviceAbstract() {
             )
         }
 
-        intentList = ActionUtils.createIntentList(oppoComponentsNamesAutoStartColorOsOlder)
+        intentList = ActionUtils.createIntentList(componentsNamesAutoStartColorOsOlder)
         return if (ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList))
             KillerManagerAction(
                 KillerManagerActionType.ActionAutoStart,
@@ -86,7 +86,7 @@ class Oppo : DeviceAbstract() {
             KillerManagerActionType.ActionNotifications,
             intentActionList = listOf(
                 ActionUtils.createIntent(
-                    oppoComponentsNamesNotificationColorOs
+                    componentNamesNotificationColorOs
                 )
             )
         )
@@ -101,25 +101,28 @@ class Oppo : DeviceAbstract() {
         /*    private static final String OppoColorOsNOTIFICATIONPackageR_V4 = "com.android.settings";
     private static final String OppoColorOsNOTIFICATIONActivityV4 = "com.android.settings.applications.InstalledAppDetails";*/
 
-        private const val packageAutoStartColorOs30 = "com.coloros.safecenter"
-
-        private const val packageAutoStartColorOs21 = "com.color.oppoguardelf"
-
+        // PACKAGE
         private const val packageAutoStartColorOsOlder = "com.oppo.safe"
+        private const val packageAutoStartColorOs21 = "com.color.oppoguardelf"
+        private const val packageAutoStartColorOs30 = "com.coloros.safecenter"
+        private const val packagePowerSavingColorOs30 = "com.coloros.oppoguardelf"
+        private const val packageNotification = "com.coloros.notificationmanager"
 
-        private val oppoComponentsNamesAutoStartColorOs30 = listOf(
-            // STARTUP Coloros >= 3.0
-            ComponentName(
-                packageAutoStartColorOs30,
-                "com.coloros.safecenter.permission.startup.StartupAppListActivity"
-            ),
-            ComponentName(
-                packageAutoStartColorOs30,
-                "com.coloros.safecenter.startupapp.StartupAppListActivity"
-            )
+        // COMPONENT
+        private val componentNamesNotificationColorOs = ComponentName(
+            packageNotification,
+            "com.coloros.notificationmanager.NotificationCenterActivity"
         )
 
-        private val oppoComponentsNamesAutoStartColorOs21 = listOf(
+        // LIST OF COMPONENTS
+        private val componentsNamesAutoStartColorOsOlder = listOf(
+            // STARTUP OLDER VERSION
+            ComponentName(
+                packageAutoStartColorOsOlder,
+                "com.oppo.safe.permission.startup.StartupAppListActivity"
+            )
+        )
+        private val componentsNamesAutoStartColorOs21 = listOf(
             // STARTUP Coloros >= 2.1
             ComponentName(
                 packageAutoStartColorOs21,
@@ -130,18 +133,18 @@ class Oppo : DeviceAbstract() {
                 "com.color.safecenter.startupapp.StartupAppListActivity"
             )
         )
-
-        private val oppoComponentsNamesAutoStartColorOsOlder = listOf(
-            // STARTUP OLDER VERSION
+        private val componentsNamesAutoStartColorOs30 = listOf(
+            // STARTUP Coloros >= 3.0
             ComponentName(
-                packageAutoStartColorOsOlder,
-                "com.oppo.safe.permission.startup.StartupAppListActivity"
+                packageAutoStartColorOs30,
+                "com.coloros.safecenter.permission.startup.StartupAppListActivity"
+            ),
+            ComponentName(
+                packageAutoStartColorOs30,
+                "com.coloros.safecenter.startupapp.StartupAppListActivity"
             )
         )
-
-        private const val packagePowerSavingColorOs30 = "com.coloros.oppoguardelf"
-
-        private val oppoComponentsNamesPowerSavingColorOs = listOf(
+        private val componentsNamesPowerSavingColorOs = listOf(
             // POWER SAVING MODE
             ComponentName(
                 packagePowerSavingColorOs30,
@@ -151,13 +154,6 @@ class Oppo : DeviceAbstract() {
                 packagePowerSavingColorOs30,
                 "com.coloros.powermanager.fuelgaue.PowerUsageModelActivity"
             )
-        )
-
-        private const val oppoColorOsNotificationPackager = "com.coloros.notificationmanager"
-        // POWER SAVING MODE
-        private val oppoComponentsNamesNotificationColorOs = ComponentName(
-            oppoColorOsNotificationPackager,
-            "com.coloros.notificationmanager.NotificationCenterActivity"
         )
     }
 }

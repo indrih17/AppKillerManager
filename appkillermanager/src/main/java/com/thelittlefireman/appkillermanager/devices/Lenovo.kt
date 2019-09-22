@@ -23,32 +23,36 @@ class Lenovo : DeviceAbstract() {
         }
 
     override val componentNameList: List<ComponentName> = listOf(
-        lenovoComponentNamesNotification
+        componentNamesNotification
     )
 
     override val intentActionList: List<String> = emptyList()
 
-    override fun isActionPowerSavingAvailable(context: Context): Boolean = false
+    override fun isActionPowerSavingAvailable(context: Context): Boolean =
+        super.isActionDozeModeNotNecessary(context)
 
     override fun isActionAutoStartAvailable(): Boolean = false
 
     override fun isActionNotificationAvailable(): Boolean = true
 
-    override fun getActionPowerSaving(context: Context): KillerManagerAction? = null
+    override fun getActionPowerSaving(context: Context): KillerManagerAction? =
+        super.getActionDozeMode(context)
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? = null
 
     override fun getActionNotification(context: Context): KillerManagerAction? =
         KillerManagerAction(
             KillerManagerActionType.ActionNotifications,
-            intentActionList = listOf(ActionUtils.createIntent(lenovoComponentNamesNotification))
+            intentActionList = listOf(ActionUtils.createIntent(componentNamesNotification))
         )
 
     companion object {
-        private const val lenovoPackage = "com.lenovo.systemuiplus"
+        // PACKAGE
+        private const val packageNotification = "com.lenovo.systemuiplus"
 
-        private val lenovoComponentNamesNotification = ComponentName(
-            lenovoPackage,
+        // COMPONENT
+        private val componentNamesNotification = ComponentName(
+            packageNotification,
             "com.lenovo.systemuiplus.notifymanager.AppNotificationOptimized"
         )
     }
