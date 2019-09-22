@@ -15,6 +15,7 @@ object DevicesManager {
         HTC(),
         Samsung(),
         Vivo(),
+        Lenovo(),
         Xiaomi(),
         ZTE()
     )

@@ -31,12 +31,13 @@ Android Custom Roms made sometimes your apps unfunctional due to :
 * ZTE (<span style="color:red">NOT TESTED</span>)
 * VIVO (<span style="color:red">NOT TESTED</span>)
 * OPPO (<span style="color:red">NOT TESTED</span>)
+* Lenovo (<span style="color:green">TESTED</span>)
 
 ### TODO
 
 * Add Tests auto with avd and intent testing
 * Add hability to customize dialog
-* Add "Tutorial Acivity type"
+* Add "Tutorial Activity type"
 * Add screenshot and "settings path" of the intent killerManagerAction for all phones on ReadMe
 * Add a table of possiblities and function unavailable/ not necessary on each device
 
@@ -47,7 +48,7 @@ Android Custom Roms made sometimes your apps unfunctional due to :
 
 ```groovy
 dependencies {
-    implementation 'com.thelittlefireman:AppKillerManager:3.0.0'
+    implementation 'com.github.indrih17:AppKillerManager:4.0.0-alpha1'
 }
 ```
 

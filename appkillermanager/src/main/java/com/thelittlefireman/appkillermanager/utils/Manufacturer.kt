@@ -11,6 +11,7 @@ enum class Manufacturer(private val device: String) {
     Asus("asus"),
     Htc("htc"),
     Zte("zte"),
+    Lenovo("lenovo"),
     Vivo("vivo");
 
     override fun toString(): String = device
