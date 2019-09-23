@@ -1,8 +1,26 @@
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
-apply plugin: "com.github.ben-manes.versions"
+
+publish {
+    userOrg = "indrih17"
+    repoName = "app-killer-manager"
+    groupId = "indrih17.app-killer-manager"
+    artifactId = "app-killer-manager"
+    publishVersion = "0.1.0"
+    desc = "Android library to handle flaky App killer manager (Xiaomi, Huawei, letv, ...) and prevent from : not showing notification, services not start at boot, etc"
+    website = "https://github.com/indrih17/AppKillerManager"
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    bintrayUser = properties.getProperty('BINTRAY_USERNAME')
+    bintrayKey = properties.getProperty('BINTRAY_API_KEY')
+
+    dryRun = false // true - не загружается, false - загружается
+}
 
 android {
     compileSdkVersion 29
@@ -42,34 +60,4 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'com.github.michael-rapp:android-material-dialog:5.1.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
-
-/*configurations.all {
-    resolutionStrategy {
-        force "androidx.recyclerview:recyclerview:$androidxVersion1"
-        force "androidx.core:core:$androidxVersion1"
-        force "androidx.annotation:annotation:1.0.1"
-    }
-}*/
-
-dependencyUpdates.resolutionStrategy {
-    componentSelection { rules ->
-        rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-            }
-            if (rejected) {
-                selection.reject('Release candidate')
-            }
-        }
-    }
-}
-
-// applied specifically at the bottom
-apply from: './scripts/bintrayConfig.gradle'

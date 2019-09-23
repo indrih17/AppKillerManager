@@ -38,15 +38,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation project(path: ':appkillermanager')
-    //implementation 'com.thelittlefireman:AppKillerManager:2.0.0'
 }
-
-/*
-configurations.all {
-    resolutionStrategy {
-        force "androidx.recyclerview:recyclerview:$androidxVersion1"
-        force "androidx.core:core:$androidxVersion1"
-        force "androidx.annotation:annotation:1.0.1"
-    }
-}
-*/

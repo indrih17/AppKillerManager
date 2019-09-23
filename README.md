@@ -1,7 +1,7 @@
 
 [![Join the chat at https://gitter.im/AppKillerManager](https://badges.gitter.im/AppKillerManager.svg)](https://gitter.im/AppKillerManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[ ![Download](https://api.bintray.com/packages/thomas-goureau/maven/AppKillerManager/images/download.svg) ](https://bintray.com/thomas-goureau/maven/AppKillerManager/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/indrih17/app-killer-manager/app-killer-manager/images/download.svg?version=0.1.0) ](https://bintray.com/indrih17/app-killer-manager/app-killer-manager/0.1.0/link)
 # AppKillerManager
 
 Android library to handle App killer manager, agressive power saving mode or battery optimization (Xiaomi, Huawei, letv, ...) and prevent from : not showing notification, services not start at boot, etc
@@ -46,7 +46,9 @@ Android Custom Roms made sometimes your apps unfunctional due to :
 
 ##### Add it on your Android app
 
-Currently unavailable
+```groovy
+implementation 'indrih17.app-killer-manager:app-killer-manager:0.1.0'
+```
 
 ### Step 2
 
