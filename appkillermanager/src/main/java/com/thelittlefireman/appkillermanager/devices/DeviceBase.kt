@@ -20,7 +20,7 @@ interface DeviceBase {
     val intentActionList: List<String>?
 
     fun isActionPowerSavingAvailable(context: Context): Boolean
-    fun isActionAutoStartAvailable(): Boolean
+    fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean
     fun isActionNotificationAvailable(): Boolean
 
     fun needToUseAlongWithActionDoseMode(): Boolean

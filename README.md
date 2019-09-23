@@ -112,6 +112,11 @@ or to get more result
 $> dumpsys activity activities | grep Activity
 ```
 
+###Get all permissions
+```shell
+$> adb shell pm list permissions
+```
+
 ###Start an activity :
 
 ```shell

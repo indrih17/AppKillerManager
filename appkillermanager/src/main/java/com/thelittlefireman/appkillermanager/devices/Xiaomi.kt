@@ -36,7 +36,7 @@ class Xiaomi : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(): Boolean = true
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = true
 
     override fun isActionNotificationAvailable(): Boolean = false
 

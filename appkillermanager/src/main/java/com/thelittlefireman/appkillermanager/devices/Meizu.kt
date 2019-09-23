@@ -30,7 +30,8 @@ class Meizu : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(): Boolean = true
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean =
+        getMeizuSecVersion(packageManager) != MeizuSecurityCenterVersion.Sec51
 
     override fun isActionNotificationAvailable(): Boolean = true
 
@@ -56,6 +57,9 @@ class Meizu : DeviceAbstract() {
             MeizuSecurityCenterVersion.Sec37 ->
                 intent.setClassName(packageDefault, powerSavingActivityV37)
 
+            MeizuSecurityCenterVersion.Sec51 ->
+                intent.setClassName(packageDefault, powerSavingActivityV51)
+
             else -> return KillerManagerAction(
                 KillerManagerActionType.ActionPowerSaving,
                 intentActionList = listOf(getDefaultSettingAction(context))
@@ -68,10 +72,15 @@ class Meizu : DeviceAbstract() {
     }
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? =
-        KillerManagerAction(
-            KillerManagerActionType.ActionAutoStart,
-            intentActionList = listOf(getDefaultSettingAction(context))
-        )
+        when (getMeizuSecVersion(context.packageManager)) {
+            MeizuSecurityCenterVersion.Sec51 ->
+                null
+
+            else -> KillerManagerAction(
+                KillerManagerActionType.ActionAutoStart,
+                intentActionList = listOf(getDefaultSettingAction(context))
+            )
+        }
 
     private fun getDefaultSettingAction(context: Context): Intent {
         val intent = ActionUtils.createIntent(action = actionAppSpec)
@@ -82,7 +91,8 @@ class Meizu : DeviceAbstract() {
     override fun getActionNotification(context: Context): KillerManagerAction? {
         val intent = ActionUtils.createIntent()
         return when (getMeizuSecVersion(context.packageManager)) {
-            MeizuSecurityCenterVersion.Sec37, MeizuSecurityCenterVersion.Sec41 -> {
+            MeizuSecurityCenterVersion.Sec37,
+            MeizuSecurityCenterVersion.Sec41 -> {
                 intent.component = ComponentName(packageDefault, notificationActivity)
                 KillerManagerAction(
                     KillerManagerActionType.ActionNotifications,
@@ -90,13 +100,13 @@ class Meizu : DeviceAbstract() {
                 )
             }
 
-            /*MeizuSecurityCenterVersion.SecNM -> {
-                intent.component = ComponentName(packageNotification, notificationActivityNew)
+            MeizuSecurityCenterVersion.Sec51 -> {
+                intent.component = ComponentName(packageDefault, notificationSec51)
                 KillerManagerAction(
                     KillerManagerActionType.ActionNotifications,
                     intentActionList = listOf(intent)
                 )
-            }*/
+            }
 
             else -> {
                 KillerManagerAction(
@@ -169,6 +179,15 @@ class Meizu : DeviceAbstract() {
             )
 
         stringBuilder
+            .append(packageDefault + powerSavingActivityV51)
+            .append(
+                ActionUtils.isIntentAvailable(
+                    packageManager,
+                    ComponentName(packageDefault, powerSavingActivityV51)
+                )
+            )
+
+        stringBuilder
             .append(packageDefault + notificationActivity)
             .append(
                 ActionUtils.isIntentAvailable(
@@ -176,15 +195,6 @@ class Meizu : DeviceAbstract() {
                     actionIntent = actionPowerSaving
                 )
             )
-
-        /*stringBuilder
-            .append(packageNotification + notificationActivityNew)
-            .append(
-                ActionUtils.isIntentAvailable(
-                    packageManager,
-                    actionIntent = actionPowerSaving
-                )
-            )*/
 
         return stringBuilder.toString()
     }
@@ -195,7 +205,7 @@ class Meizu : DeviceAbstract() {
         Sec36, // Meizu security center : 3.6.0802
         Sec37, // Meizu security center : 3.7.1101
         Sec41, // Meizu security center : 4.1.10
-        SecNM  // Meizu security center : N.M
+        Sec51  // Meizu security center : 5.1.80
     }
 
     private fun getMeizuSecVersion(packageManager: PackageManager): MeizuSecurityCenterVersion =
@@ -220,17 +230,19 @@ class Meizu : DeviceAbstract() {
                 version.startsWith("4") ->
                     MeizuSecurityCenterVersion.Sec41
 
+                version.startsWith("5") ->
+                    MeizuSecurityCenterVersion.Sec51
+
                 else ->
-                    MeizuSecurityCenterVersion.Sec41
+                    MeizuSecurityCenterVersion.Sec51
             }
         } catch (e: Exception) {
-            MeizuSecurityCenterVersion.Sec41
+            MeizuSecurityCenterVersion.Sec51
         }
 
     companion object {
         // PACKAGE
         private const val packageDefault = "com.meizu.safe"
-        //private const val packageNotification = "com.android.settings"
 
         // ACTION
         private const val actionAppSpec = "com.meizu.safe.security.SHOW_APPSEC"
@@ -240,9 +252,10 @@ class Meizu : DeviceAbstract() {
         private const val powerSavingActivityV22 = "com.meizu.safe.cleaner.RubbishCleanMainActivity"
         private const val powerSavingActivityV34 = "com.meizu.safe.powerui.AppPowerManagerActivity"
         private const val powerSavingActivityV37 =
-            "com.meizu.safe.powerui.PowerAppPermissionActivity" // == ACTION com.meizu.power.PowerAppKilledNotification
+            "com.meizu.safe.powerui.PowerAppPermissionActivity" // == ACTION com.meizu.power.PowerAppKilledNotification4
+        private const val powerSavingActivityV51 = "com.meizu.safe.permission.SmartBGActivity"
 
         private const val notificationActivity = "com.meizu.safe.permission.NotificationActivity"
-        //private const val notificationActivityNew = "com.android.settings.SubSettings"
+        private const val notificationSec51 = "com.meizu.safe.permission.PermissionMainActivity"
     }
 }

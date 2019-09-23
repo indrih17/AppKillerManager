@@ -3,6 +3,7 @@ package com.thelittlefireman.appkillermanager.devices
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import com.thelittlefireman.appkillermanager.models.KillerManagerAction
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
@@ -29,7 +30,7 @@ class ZTE : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(): Boolean = true
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = true
 
     override fun isActionNotificationAvailable(): Boolean = false
 

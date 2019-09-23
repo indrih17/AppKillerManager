@@ -61,11 +61,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val device: DeviceBase? = KillerManager.device
+
         if (device != null && device.isThatRom) {
             if (!device.isActionPowerSavingAvailable(this))
                 powerSavingManagerButton.optimisationNotAvailable()
 
-            if (!device.isActionAutoStartAvailable())
+            if (!device.isActionAutoStartAvailable(packageManager))
                 autoStartManagerButton.optimisationNotAvailable()
 
             if (!device.isActionNotificationAvailable())

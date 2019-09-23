@@ -3,6 +3,7 @@ package com.thelittlefireman.appkillermanager.devices
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.DrawableRes
 import com.thelittlefireman.appkillermanager.R
@@ -38,7 +39,7 @@ class Asus : DeviceAbstract() {
     override fun isActionPowerSavingAvailable(context: Context): Boolean =
         super.isActionDozeModeNotNecessary(context)
 
-    override fun isActionAutoStartAvailable(): Boolean = true
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = true
 
     override fun isActionNotificationAvailable(): Boolean = true
 

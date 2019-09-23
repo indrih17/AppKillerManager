@@ -3,6 +3,7 @@ package com.thelittlefireman.appkillermanager.devices
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.DrawableRes
 import com.thelittlefireman.appkillermanager.R
@@ -34,11 +35,12 @@ class Samsung : DeviceAbstract() {
 
     override val intentActionList: List<String> = intentActions
 
-    // SmartManager is not available before lollipop version
+    // SmartManager is not available before lollipop version,
+    // But after the Android Pie is used by One UI.
     override fun isActionPowerSavingAvailable(context: Context): Boolean =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        Build.VERSION.SDK_INT in Build.VERSION_CODES.LOLLIPOP..Build.VERSION_CODES.O_MR1
 
-    override fun isActionAutoStartAvailable(): Boolean = false
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = false
 
     override fun isActionNotificationAvailable(): Boolean = false
 

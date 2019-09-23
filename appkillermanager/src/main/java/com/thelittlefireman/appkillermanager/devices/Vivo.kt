@@ -3,6 +3,7 @@ package com.thelittlefireman.appkillermanager.devices
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import com.thelittlefireman.appkillermanager.models.KillerManagerAction
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
 import com.thelittlefireman.appkillermanager.utils.ActionUtils
@@ -23,7 +24,7 @@ class Vivo : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = false
 
-    override fun isActionAutoStartAvailable(): Boolean = true
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = true
 
     override fun isActionNotificationAvailable(): Boolean = false
 

@@ -11,11 +11,6 @@ import com.thelittlefireman.appkillermanager.utils.ActionUtils
 import com.thelittlefireman.appkillermanager.utils.LogUtils
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.emptyList
-import kotlin.collections.getValue
-import kotlin.collections.hashMapOf
-import kotlin.collections.isNotEmpty
 import kotlin.collections.set
 
 object KillerManager {
@@ -50,7 +45,7 @@ object KillerManager {
                     ActionAutoStart -> {
                         val actionAutoStart: KillerManagerAction? =
                             device.getActionAutoStart(context)
-                        if (device.isActionAutoStartAvailable()
+                        if (device.isActionAutoStartAvailable(packageManager)
                             && actionAutoStart != null
                             && ActionUtils.isAtLeastOneIntentAvailable(
                                 packageManager,

@@ -53,7 +53,7 @@ class Huawei : DeviceAbstract() {
 
     override fun isActionPowerSavingAvailable(context: Context): Boolean = true
 
-    override fun isActionAutoStartAvailable(): Boolean = false
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = false
 
     override fun isActionNotificationAvailable(): Boolean = true
 
