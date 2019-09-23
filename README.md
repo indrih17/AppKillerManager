@@ -101,9 +101,9 @@ Huawei P9 LITE | Android 6.0 | EMUI 4.1
 Huawei P10 Lite | Android 8.0 | EMUI 8.0.0
 Samsung S7 edge | Android 7.0 |
 Samsung Xcover | Android 5.1 |
-Samsung Galaxy J4 | Android 9.0 | One UI
+Samsung Galaxy J4 | Android 9.0 | One UI 1.0
 Samsung S4 mini | Android 4.4 |
-Meizu M6 Note | |
+Meizu M6 Note | 7.1.2 | Flyme 7.1.2
 Meizu M6T | Android 7.0 | Flyme 6.3.4.6 
 Meizu M811H | Android 7.0 | Flyme 6.3.4.6 
 Xiaomi Mi mix | Android 6.0.1 | MIUI 8.0
