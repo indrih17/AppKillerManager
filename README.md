@@ -1,10 +1,10 @@
 
 [![Old chat https://gitter.im/AppKillerManager](https://badges.gitter.im/AppKillerManager.svg)](https://gitter.im/AppKillerManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[ ![Download](https://api.bintray.com/packages/indrih17/app-killer-manager/app-killer-manager/images/download.svg?version=0.1.0) ](https://bintray.com/indrih17/app-killer-manager/app-killer-manager/0.1.0/link)
+[ ![Download](https://api.bintray.com/packages/indrih17/app-killer-manager/app-killer-manager/images/download.svg?version=0.2.0) ](https://bintray.com/indrih17/app-killer-manager/app-killer-manager/0.2.0/link)
 # AppKillerManager
 
-[Telegram chat](https://github.com/indrih17/AppKillerManager)
+[Telegram chat](https://t.me/AppKillerManager)
 
 Android library to handle App killer manager, agressive power saving mode or battery optimization (Xiaomi, Huawei, letv, ...) and prevent from : not showing notification, services not start at boot, etc
 
@@ -54,10 +54,11 @@ implementation "indrih17.app-killer-manager:app-killer-manager:$app_killer_versi
 
 ### Step 2
 
-Introduce in your app. [Example](https://github.com/indrih17/AppKillerManager/blob/develop_v4.0/app/src/main/java/com/thelittlefireman/appkillermanager_exemple/MainActivity.kt)
+Introduce in your app. [Example](https://github.com/indrih17/AppKillerManager/blob/master/app/src/main/java/com/thelittlefireman/appkillermanager_exemple/MainActivity.kt)
 
 ## Maintainers
 [thelittlefireman](https://github.com/thelittlefireman)
+
 [Indrih](https://github.com/indrih17)
 
 ## TODO :
