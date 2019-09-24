@@ -21,39 +21,57 @@ class OnePlus : DeviceAbstract() {
                     Build.FINGERPRINT.toLowerCase().contains(manufacturer)
         }
 
-    override val componentNameList: List<ComponentName> = listOf(onePlusComponentNames)
+    override val componentNameList: List<ComponentName> = listOf(
+        componentNamesAutoStart,
+        componentNamePowerSaving1
+    )
 
     override val intentActionList: List<String> = emptyList()
+
+    override fun isActionPowerSavingAvailable(context: Context): Boolean = true
+
+    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.O
+
+    override fun isActionNotificationAvailable(): Boolean = false
 
     // This is mandatory for new oneplus version android 8
     override fun needToUseAlongWithActionDoseMode(): Boolean = true
 
-    override fun isActionPowerSavingAvailable(context: Context): Boolean = false
-
-    override fun isActionAutoStartAvailable(packageManager: PackageManager): Boolean = true
-
-    override fun isActionNotificationAvailable(): Boolean = false
-
     override fun getActionPowerSaving(context: Context): KillerManagerAction? =
-        KillerManagerAction()
+        KillerManagerAction(
+            KillerManagerActionType.ActionPowerSaving,
+            intentActionList = listOf(
+                ActionUtils.createIntent(componentNamePowerSaving1),
+                ActionUtils.createIntent(componentNamePowerSaving2)
+            )
+        )
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? =
         KillerManagerAction(
             KillerManagerActionType.ActionAutoStart,
-            intentActionList = listOf(ActionUtils.createIntent(onePlusComponentNames))
+            intentActionList = listOf(ActionUtils.createIntent(componentNamesAutoStart))
         )
 
-    override fun getActionNotification(context: Context): KillerManagerAction? =
-        KillerManagerAction()
+    override fun getActionNotification(context: Context): KillerManagerAction? = null
 
     companion object {
         // PACKAGE
-        private const val onePlusPackage = "com.oneplus.security"
+        private const val packageAuthStart = "com.oneplus.security"
 
         // COMPONENT
-        private val onePlusComponentNames = ComponentName(
-            onePlusPackage,
+        private val componentNamesAutoStart = ComponentName(
+            packageAuthStart,
             "com.oneplus.security.chainlaunch.view.ChainLaunchAppListActivity"
+        )
+
+        private val componentNamePowerSaving1 = ComponentName(
+            "com.android.settings",
+            "com.android.settings.Settings\$BgOptimizeAppListActivity"
+        )
+        private val componentNamePowerSaving2 = ComponentName(
+            "com.android.settings",
+            "com.android.settings.Settings\$BgOptimizeSwitchActivity"
         )
     }
 }

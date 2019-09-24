@@ -49,7 +49,7 @@ Android Custom Roms made sometimes your apps unfunctional due to :
 ##### Add it on your Android app
 
 ```groovy
-implementation 'indrih17.app-killer-manager:app-killer-manager:0.1.0'
+implementation "indrih17.app-killer-manager:app-killer-manager:$app_killer_version"
 ```
 
 ### Step 2
@@ -64,13 +64,25 @@ Introduce in your app. [Example](https://github.com/indrih17/AppKillerManager/bl
   - Test on all devices
   - Add differents settings for autostartservice/notifications/permissions
   - Add custom messages for more explaination on what user need to do on manufacturer "settings Activity"
-  - Add custom image for each device and each languages
 ## DEBUG/HELPING INFORMATIONS :
 
 ###Get the current activity name :
 
 ```shell
 $> adb shell
+```
+
+If you see the error 
+```shell
+adb server version (41) doesn't match this client (39); killing...
+```
+
+Then enter next command: 
+```shell
+sudo cp ~/Android/Sdk/platform-tools/adb /usr/bin/adb
+```
+
+```shell
 $> dumpsys activity activities | grep mFocusedActivity
 or to get more result
 $> dumpsys activity activities | grep Activity
@@ -110,6 +122,8 @@ Xiaomi Mi mix | Android 6.0.1 | MIUI 8.0
 Asus ZenFon-2 ZE500KL | Android 6.0.1 |
 OnePlus 3T | Android 6.0.1 | OxygenOS 3.5.4
 OnePlus 3T | Android 7.1.1 | OxygenOS 4.5.1
+OnePlus 3T | Android 8.0 | OxygenOS 5.0.6
+OnePlus 3T | Android 9.0 | OxygenOS 9.0.5
 
 ## THANKS TO:
 Sylvain BORELLI

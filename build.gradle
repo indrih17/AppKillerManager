@@ -37,14 +37,8 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext{
-    // ValidateTor Library Info
-    libVersionCode = 5
-    libVersionName = '3.0.0'
-    libPomUrl = 'https://github.com/thelittlefireman/AppKillerManager'
-    libGithubRepo = 'thelittlefireman/AppKillerManager'
-    libModuleName = 'AppKillerManager'
-    libModuleDesc = 'Android library to handle flaky App killer manager (Xiaomi, Huawei, letv, ...) and prevent from : not showing notification, services not start at boot, etc'
-    libBintrayName = 'AppKillerManager'
+ext {
+    libVersionCode = 2
+    libVersionName = '0.2.0'
 }
 

@@ -9,7 +9,7 @@ publish {
     repoName = "app-killer-manager"
     groupId = "indrih17.app-killer-manager"
     artifactId = "app-killer-manager"
-    publishVersion = "0.1.0"
+    publishVersion = rootProject.ext.libVersionName
     desc = "Android library to handle flaky App killer manager (Xiaomi, Huawei, letv, ...) and prevent from : not showing notification, services not start at boot, etc"
     website = "https://github.com/indrih17/AppKillerManager"
 

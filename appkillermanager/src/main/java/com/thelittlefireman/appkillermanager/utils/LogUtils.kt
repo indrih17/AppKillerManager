@@ -43,7 +43,7 @@ object LogUtils {
         extraDebugInfo: String,
         actionType: KillerManagerActionType
     ) =
-        w(
+        e(
             KillerManager::class.java.name, "INTENT NOT FOUND: " +
                     extraDebugInfo +
                     ", LibraryVersionName: " + BuildConfig.VERSION_NAME +

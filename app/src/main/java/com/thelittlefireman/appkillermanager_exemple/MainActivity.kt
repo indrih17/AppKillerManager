@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.thelittlefireman.appkillermanager.devices.DeviceBase
 import com.thelittlefireman.appkillermanager.managers.KillerManager
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
-import com.thelittlefireman.appkillermanager.ui.DialogKillerManager
 import com.thelittlefireman.appkillermanager.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -36,28 +35,19 @@ class MainActivity : AppCompatActivity() {
             val actionType = KillerManagerActionType.ActionPowerSaving
                 .also { actionType = it }
 
-            if (idByDialog.isChecked)
-                startDialog(actionType)
-            else
-                KillerManager.doAction(this, actionType)
+            KillerManager.doAction(this, actionType)
         }
         autoStartManagerButton.setOnClickListener {
             val actionType = KillerManagerActionType.ActionAutoStart
                 .also { actionType = it }
 
-            if (idByDialog.isChecked)
-                startDialog(actionType)
-            else
-                KillerManager.doAction(this, actionType)
+            KillerManager.doAction(this, actionType)
         }
         notificationManagerButton.setOnClickListener {
             val actionType = KillerManagerActionType.ActionNotifications
                 .also { actionType = it }
 
-            if (idByDialog.isChecked)
-                startDialog(actionType)
-            else
-                KillerManager.doAction(this, actionType)
+            KillerManager.doAction(this, actionType)
         }
 
         val device: DeviceBase? = KillerManager.device
@@ -77,14 +67,6 @@ class MainActivity : AppCompatActivity() {
             notificationManagerButton.optimisationNotAvailable()
         }
     }
-
-    private fun startDialog(action: KillerManagerActionType) =
-        DialogKillerManager(
-            activity = this,
-            killerManagerActionTypeList = listOf(action),
-            titleMessage = "startDialog"
-        )
-            .show()
 
     private fun Button.optimisationNotAvailable() {
         isEnabled = false

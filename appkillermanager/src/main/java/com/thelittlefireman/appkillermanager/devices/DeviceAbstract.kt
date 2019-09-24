@@ -21,6 +21,7 @@ abstract class DeviceAbstract : DeviceBase {
                 resultBuilder.append(componentName.packageName + componentName.className)
                 resultBuilder.append(":")
                 resultBuilder.append(ActionUtils.isIntentAvailable(packageManager, componentName))
+                resultBuilder.append('\n')
             }
         }
         intentActionList?.let { list ->
