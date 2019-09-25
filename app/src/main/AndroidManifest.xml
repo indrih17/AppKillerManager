@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.thelittlefireman.appkillermanager_exemple">
+    package="com.thelittlefireman.appkillermanager_example">
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -8,7 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.thelittlefireman.appkillermanager_example.MainActivity">
             <intent-filter>
                 <action android:name="android.intentAction.killerManagerActionTypeList.MAIN" />
                 <category android:name="android.intentAction.category.LAUNCHER" />

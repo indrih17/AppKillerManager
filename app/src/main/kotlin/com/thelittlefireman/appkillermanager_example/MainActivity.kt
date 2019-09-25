@@ -1,4 +1,4 @@
-package com.thelittlefireman.appkillermanager_exemple
+package com.thelittlefireman.appkillermanager_example
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,11 +22,7 @@ class MainActivity : AppCompatActivity() {
                 // Custom Log
             }
 
-            override fun w(tag: String, message: String) {
-                // Custom log
-            }
-
-            override fun e(tag: String, message: String?) {
+            override fun e(tag: String, message: String?, exception: Exception) {
                 // Custom Log
             }
         }

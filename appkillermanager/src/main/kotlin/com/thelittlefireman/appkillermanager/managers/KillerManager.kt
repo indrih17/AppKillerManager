@@ -59,7 +59,7 @@ object KillerManager {
             }
         } catch (e: Exception) {
             // Exception handle actionType failed
-            LogUtils.e(KillerManager::class.java.name, e.message)
+            LogUtils.e(KillerManager::class.java.name, e)
         }
         return false
     }
@@ -93,7 +93,7 @@ object KillerManager {
                 // Intent found actionType succeed
                 intentList
             } else {
-                LogUtils.indentNotFound(
+                LogUtils.intentNotFound(
                     packageManager = packageManager,
                     device = device,
                     extraDebugInfo = ActionUtils.getExtrasDebugInformations(intentList),

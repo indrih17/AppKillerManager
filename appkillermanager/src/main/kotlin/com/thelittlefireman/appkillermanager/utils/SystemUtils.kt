@@ -36,7 +36,7 @@ object SystemUtils {
                 .getApplicationLabel(appInfo)
                 .toString()
         } catch (e: PackageManager.NameNotFoundException) {
-            LogUtils.e(SystemUtils::class.java.name, e.message)
+            LogUtils.e(SystemUtils::class.java.name, e)
             "Unknown"
         }
 

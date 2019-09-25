@@ -1,6 +1,7 @@
 package com.thelittlefireman.appkillermanager.managers
 
 import com.thelittlefireman.appkillermanager.devices.*
+import com.thelittlefireman.appkillermanager.exceptions.UnknownDeviceException
 import com.thelittlefireman.appkillermanager.utils.LogUtils
 import com.thelittlefireman.appkillermanager.utils.SystemUtils
 
@@ -24,14 +25,11 @@ object DevicesManager {
         deviceBaseList
             .firstOrNull { it.isThatRom }
             ?.also {
-                LogUtils.w(
-                    DevicesManager::class.java.name,
-                    "Unsupported device"
-                )
-
                 LogUtils.e(
                     DevicesManager::class.java.name,
-                    SystemUtils.defaultDebugInformation
+                    exception = UnknownDeviceException(
+                        "Unsupported device: ${SystemUtils.defaultDebugInformation}"
+                    )
                 )
             }
 }
