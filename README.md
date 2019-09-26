@@ -1,7 +1,7 @@
 
 [![Old chat https://gitter.im/AppKillerManager](https://badges.gitter.im/AppKillerManager.svg)](https://gitter.im/AppKillerManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[ ![Download](https://api.bintray.com/packages/indrih17/app-killer-manager/app-killer-manager/images/download.svg?version=0.2.2) ](https://bintray.com/indrih17/app-killer-manager/app-killer-manager/0.2.2/link)
+[ ![Download](https://api.bintray.com/packages/indrih17/app-killer-manager/app-killer-manager/images/download.svg?version=0.2.3) ](https://bintray.com/indrih17/app-killer-manager/app-killer-manager/0.2.3/link)
 # AppKillerManager
 
 [Telegram chat](https://t.me/AppKillerManager)

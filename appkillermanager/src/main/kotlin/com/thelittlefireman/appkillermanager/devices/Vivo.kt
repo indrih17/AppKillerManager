@@ -37,8 +37,7 @@ class Vivo : DeviceAbstract() {
                 componentNameList = listOf(componentNames26, componentNames30)
             )
 
-    override fun getActionNotification(context: Context): KillerManagerAction? =
-        KillerManagerAction()
+    override fun getActionNotification(context: Context): KillerManagerAction? = null
 
     /**
      * Funtouch OS 2.6 and lower version

@@ -83,9 +83,6 @@ object KillerManager {
 
                 ActionNotifications ->
                     device.getActionNotification(this)?.intentActionList ?: emptyList()
-
-                ActionEmpty ->
-                    emptyList()
             }
             return if (intentList.isNotEmpty()
                 && ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)

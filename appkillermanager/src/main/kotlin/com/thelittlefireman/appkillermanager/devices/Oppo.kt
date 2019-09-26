@@ -49,7 +49,7 @@ class Oppo : DeviceAbstract() {
                 intentActionList = intentList
             )
         else
-            KillerManagerAction()
+            null
     }
 
     override fun getActionAutoStart(context: Context): KillerManagerAction? =

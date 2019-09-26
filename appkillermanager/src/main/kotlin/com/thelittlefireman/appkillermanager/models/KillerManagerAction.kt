@@ -12,7 +12,7 @@ object IntentSerializer : KSerializer<Intent>
 
 @Serializable
 class KillerManagerAction(
-    val actionType: KillerManagerActionType = KillerManagerActionType.ActionEmpty,
+    val actionType: KillerManagerActionType,
 
     val intentActionList: List<@Serializable(IntentSerializer::class) Intent> = emptyList()
 ) {
