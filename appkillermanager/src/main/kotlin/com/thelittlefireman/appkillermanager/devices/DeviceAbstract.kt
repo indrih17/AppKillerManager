@@ -9,7 +9,6 @@ import androidx.annotation.CallSuper
 import com.thelittlefireman.appkillermanager.models.KillerManagerAction
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
 import com.thelittlefireman.appkillermanager.utils.ActionUtils
-import com.thelittlefireman.appkillermanager.utils.LogUtils
 
 abstract class DeviceAbstract : DeviceBase {
     @CallSuper
@@ -64,11 +63,6 @@ abstract class DeviceAbstract : DeviceBase {
                 return KillerManagerAction(
                     KillerManagerActionType.ActionPowerSaving,
                     intentActionList = listOf(dozeIntent)
-                )
-            } else {
-                LogUtils.i(
-                    javaClass.name,
-                    "getActionDozeMode: App is already enable to ignore doze battery optimization"
                 )
             }
         }

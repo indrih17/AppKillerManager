@@ -3,9 +3,12 @@ package com.thelittlefireman.appkillermanager.ui
 import android.content.Context
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import com.thelittlefireman.appkillermanager.Failure
+import com.thelittlefireman.appkillermanager.InternalFail
 import com.thelittlefireman.appkillermanager.devices.DeviceBase
 import com.thelittlefireman.appkillermanager.managers.KillerManager
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
+import com.thelittlefireman.appkillermanager.utils.LogUtils
 
 /**
  * Add users permission to app manifest:
@@ -14,10 +17,17 @@ import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
  */
 open class ActionDialogCreator(
     private val device: DeviceBase,
-    private val activity: AppCompatActivity
+    private val activity: AppCompatActivity,
+    private val onFailure: (Failure) -> Unit
 ) {
     private val prefManager = PrefManager(activity)
     private lateinit var currentAction: KillerManagerActionType
+
+    init {
+        LogUtils.logCustomListener = { tag: String, message: String?, exception: Exception ->
+            onFailure(InternalFail(tag, message, exception))
+        }
+    }
 
     fun showDialogForAction(action: KillerManagerActionType, messageRes: Int) {
         if (
@@ -31,9 +41,14 @@ open class ActionDialogCreator(
                         action,
                         ProgressOfEliminatingOptimizations.UserAgreed
                     )
-                    val isSuccess = KillerManager.doAction(activity, action)
-                    if (isSuccess)
-                        currentAction = action
+                    KillerManager
+                        .doAction(activity, device, action)
+                        .fold(
+                            ifLeft = onFailure,
+                            ifRight = {
+                                currentAction = action
+                            }
+                        )
                 },
                 noButton = {
                     prefManager.setProgressStatus(
@@ -58,14 +73,18 @@ open class ActionDialogCreator(
 
     fun onActivityResult(requestCode: Int) {
         val action = currentAction
-        val isSuccess = KillerManager.onActivityResult(activity, action, requestCode)
-        prefManager.setProgressStatus(
-            action,
-            if (isSuccess)
-                ProgressOfEliminatingOptimizations.Completed
-            else
-                ProgressOfEliminatingOptimizations.UserAgreed
-        )
+        KillerManager
+            .onActivityResult(activity, device, action, requestCode)
+            .fold(
+                ifLeft = onFailure,
+                ifRight = { actionHandled ->
+                    if (actionHandled)
+                        prefManager.setProgressStatus(
+                            action,
+                            ProgressOfEliminatingOptimizations.Completed
+                        )
+                }
+            )
     }
 
     protected open fun Context.showDialog(
@@ -84,5 +103,4 @@ open class ActionDialogCreator(
 
     private fun ProgressOfEliminatingOptimizations.needToShow(): Boolean =
         this == ProgressOfEliminatingOptimizations.NotStarted
-                || this == ProgressOfEliminatingOptimizations.UserAgreed
 }

@@ -1,8 +1,8 @@
 package com.thelittlefireman.appkillermanager.managers
 
+import arrow.core.Either
+import com.thelittlefireman.appkillermanager.UnknownDeviceFail
 import com.thelittlefireman.appkillermanager.devices.*
-import com.thelittlefireman.appkillermanager.exceptions.UnknownDeviceException
-import com.thelittlefireman.appkillermanager.utils.LogUtils
 import com.thelittlefireman.appkillermanager.utils.SystemUtils
 
 object DevicesManager {
@@ -21,16 +21,13 @@ object DevicesManager {
         ZTE()
     )
 
-    fun getDevice(): DeviceBase? =
+    fun getDevice(): Either<UnknownDeviceFail, DeviceBase> =
         deviceBaseList
             .firstOrNull { it.isThatRom }
-            .also {
-                if (it == null)
-                    LogUtils.e(
-                        DevicesManager::class.java.name,
-                        exception = UnknownDeviceException(
-                            "Unsupported device: \n${SystemUtils.defaultDebugInformation}"
-                        )
-                    )
+            .let {
+                if (it != null)
+                    Either.right(it)
+                else
+                    Either.left(UnknownDeviceFail(SystemUtils.defaultDebugInformation))
             }
 }

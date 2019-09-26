@@ -3,17 +3,19 @@ package com.thelittlefireman.appkillermanager.managers
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
+import arrow.core.Either
+import arrow.core.flatMap
+import com.thelittlefireman.appkillermanager.IntentFailure
+import com.thelittlefireman.appkillermanager.IntentListForActionNotFoundFail
+import com.thelittlefireman.appkillermanager.IntentNotAvailableFail
 import com.thelittlefireman.appkillermanager.devices.DeviceBase
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType.*
 import com.thelittlefireman.appkillermanager.utils.ActionUtils
-import com.thelittlefireman.appkillermanager.utils.LogUtils
 import java.util.*
 import kotlin.collections.set
 
 object KillerManager {
-    val device: DeviceBase? = DevicesManager.getDevice()
-
     private val currentNbActions: HashMap<KillerManagerActionType, Int> = hashMapOf(
         ActionAutoStart to 0,
         ActionNotifications to 0,
@@ -29,104 +31,86 @@ object KillerManager {
      */
     fun doAction(
         activity: FragmentActivity,
+        device: DeviceBase,
         actionType: KillerManagerActionType
-    ): Boolean =
-        activity.doAction(
-            actionType,
-            currentNbActions.getValue(actionType)
-        )
+    ): Either<IntentFailure, Unit> =
+        activity
+            .getIntentListFromActionType(device, actionType)
+            .flatMap { intentList ->
+                val intent = getIntentForActionOrNull(intentList, actionType)
+                    ?: return@flatMap Either.right(Unit) // Finished checking
 
-    /**
-     * Execute the actionType
-     *
-     * @param actionType the wanted actionType to execute
-     * @return true : [actionType] succeed; false [actionType] failed
-     */
-    // Avoid main app to crash when intent denied by using try catch
-    private fun FragmentActivity.doAction(
-        actionType: KillerManagerActionType,
-        index: Int
-    ): Boolean {
-        try {
-            val intentList = getIntentFromActionType(actionType)
-            if (intentList.isNotEmpty() && intentList.size > index) {
-                val intent = intentList[index]
-                if (ActionUtils.isIntentAvailable(packageManager, intent)) {
-                    startActivityForResult(intent, requestCodeKillerManagerAction)
+                return@flatMap if (ActionUtils.isIntentAvailable(activity.packageManager, intent)) {
+                    activity.startActivityForResult(intent, requestCodeKillerManagerAction)
                     // Intent found actionType succeed
-                    return true
+                    Either.right(Unit)
+                } else {
+                    Either.left(IntentNotAvailableFail(intent))
                 }
             }
-        } catch (e: Exception) {
-            // Exception handle actionType failed
-            LogUtils.e(KillerManager::class.java.name, e)
-        }
-        return false
+
+    private fun getIntentForActionOrNull(
+        intentList: List<Intent>,
+        actionType: KillerManagerActionType
+    ): Intent? {
+        val actionIndex = currentNbActions.getValue(actionType)
+        return intentList
+            .getOrNull(actionIndex)
+            .also {
+                if (it == null) currentNbActions[actionType] = 0
+            }
     }
 
     /**
      * Return the intent for a specific actionType
      *
      * @param actionType the wanted actionType
-     * @return the intent
+     * @return the intent list of failure.
      */
-    private fun Context.getIntentFromActionType(
+    private fun Context.getIntentListFromActionType(
+        device: DeviceBase,
         actionType: KillerManagerActionType
-    ): List<Intent> {
-        if (device != null) {
-            val intentList: List<Intent> = when (actionType) {
-                ActionAutoStart ->
-                    device.getActionAutoStart(this)?.intentActionList ?: emptyList()
+    ): Either<IntentFailure, List<Intent>> {
+        val intentList: List<Intent> = when (actionType) {
+            ActionAutoStart ->
+                device.getActionAutoStart(this)?.intentActionList ?: emptyList()
 
-                ActionPowerSaving ->
-                    device.getActionPowerSaving(this)?.intentActionList ?: emptyList()
+            ActionPowerSaving ->
+                device.getActionPowerSaving(this)?.intentActionList ?: emptyList()
 
-                ActionNotifications ->
-                    device.getActionNotification(this)?.intentActionList ?: emptyList()
-            }
-            return if (intentList.isNotEmpty()
-                && ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)
-            ) {
-                // Intent found actionType succeed
-                intentList
-            } else {
-                LogUtils.intentNotFound(
+            ActionNotifications ->
+                device.getActionNotification(this)?.intentActionList ?: emptyList()
+        }
+        return if (intentList.isNotEmpty()
+            && ActionUtils.isAtLeastOneIntentAvailable(packageManager, intentList)
+        )
+        // Intent found actionType succeed
+            Either.right(intentList)
+        else
+        // Intent not found actionType failed
+            Either.left(
+                IntentListForActionNotFoundFail(
+                    actionType = actionType,
                     packageManager = packageManager,
                     device = device,
-                    extraDebugInfo = ActionUtils.getExtrasDebugInformations(intentList),
-                    actionType = actionType
+                    extraDebugInfo = ActionUtils.getExtrasDebugInformation(intentList)
                 )
-                // Intent not found actionType failed
-                emptyList()
-            }
-        } else {
-            // device not found actionType failed
-            return emptyList()
-        }
+            )
     }
 
     fun onActivityResult(
         activity: FragmentActivity,
+        device: DeviceBase,
         actionType: KillerManagerActionType,
         requestCode: Int
-    ): Boolean {
+    ): Either<IntentFailure, Boolean> =
         if (requestCode == requestCodeKillerManagerAction) {
-            currentNbActions[actionType]?.let {
-                currentNbActions[actionType] = it + 1
-            }
-
-            val intentList = activity.getIntentFromActionType(actionType)
-            val actionIndex = currentNbActions[actionType]
-            if (intentList.isNotEmpty() && actionIndex != null && intentList.size > actionIndex)
-                activity.doAction(actionType, actionIndex)
-            else
-            // reset if no more intent
-                currentNbActions[actionType] = 0
-            return true
+            val old = currentNbActions.getValue(actionType)
+            currentNbActions[actionType] = old + 1
+            doAction(activity, device, actionType).map { true }
         } else {
-            return false
+            Either.right(false)
         }
-    }
 
     private const val requestCodeKillerManagerAction = 52000
 }

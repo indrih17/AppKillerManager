@@ -58,6 +58,9 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.13.0'
 
+    // Arrow
+    implementation "io.arrow-kt:arrow-data:0.8.2"
+
     // UI
     implementation "androidx.core:core-ktx:1.1.0"
     implementation "androidx.appcompat:appcompat:1.1.0"

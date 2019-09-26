@@ -9,47 +9,18 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="3" />
+        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/powerSavingManagerButton"
+    <TextView
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="PowerSaving Button" />
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/hello" />
 
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/autoStartManagerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="AutoStart Button" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/notificationManagerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Notification Button" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="3" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="5" />
-
 </LinearLayout>

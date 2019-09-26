@@ -25,11 +25,11 @@ object ActionUtils {
                 createIntent(componentName)
             }
 
-    fun getExtrasDebugInformations(intentList: List<Intent>): String =
+    fun getExtrasDebugInformation(intentList: List<Intent>): String =
         if (intentList.isEmpty())
             "intentList is isEmpty"
         else
-            "intent is null"
+            intentList.joinToString("\n") { it.component.toString() }
 
     fun isIntentAvailable(
         packageManager: PackageManager,

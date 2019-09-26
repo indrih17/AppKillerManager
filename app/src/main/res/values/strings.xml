@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name" translatable="false">killermanager_example</string>
-    <string name="optimization_not_available" translatable="false">optimization not available</string>
+    <string name="app_name">killermanager_example</string>
+    <string name="hello">Now you will see dialogs that will ask you to turn off optimizations. If this does not happen, then either there is nothing to disable, or your device is not supported.</string>
+    <string name="auto_start_message">You must add the application to autorun in order for you to receive notifications on time. Continue?</string>
+    <string name="battery_optimization_message">For the application to work correctly, you must turn off the power saving mode.</string>
+    <string name="notification_message">For the application to work correctly, you need to configure notification settings.</string>
 </resources>
