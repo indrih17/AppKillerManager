@@ -24,12 +24,13 @@ object DevicesManager {
     fun getDevice(): DeviceBase? =
         deviceBaseList
             .firstOrNull { it.isThatRom }
-            ?.also {
-                LogUtils.e(
-                    DevicesManager::class.java.name,
-                    exception = UnknownDeviceException(
-                        "Unsupported device: ${SystemUtils.defaultDebugInformation}"
+            .also {
+                if (it == null)
+                    LogUtils.e(
+                        DevicesManager::class.java.name,
+                        exception = UnknownDeviceException(
+                            "Unsupported device: \n${SystemUtils.defaultDebugInformation}"
+                        )
                     )
-                )
             }
 }

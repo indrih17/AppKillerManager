@@ -1,7 +1,6 @@
 package com.thelittlefireman.appkillermanager.utils
 
 import android.content.pm.PackageManager
-import android.util.Log
 import com.thelittlefireman.appkillermanager.BuildConfig
 import com.thelittlefireman.appkillermanager.devices.DeviceBase
 import com.thelittlefireman.appkillermanager.exceptions.IntentNotFoundException
@@ -18,13 +17,10 @@ object LogUtils {
 
     fun i(tag: String, message: String) {
         logCustomListener?.i(tag, message)
-        Log.i(tag, message)
     }
 
     fun e(tag: String, exception: Exception) {
-        val logMessage = exception.message
-        logCustomListener?.e(tag, logMessage, exception)
-        Log.e(tag, logMessage, exception)
+        logCustomListener?.e(tag, exception.message, exception)
     }
 
     fun intentNotFound(
