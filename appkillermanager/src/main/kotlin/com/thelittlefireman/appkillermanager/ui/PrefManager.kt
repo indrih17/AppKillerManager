@@ -1,9 +1,9 @@
 package com.thelittlefireman.appkillermanager.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
 
 internal class PrefManager(context: Context) {
     private val pref: SharedPreferences by lazy {
@@ -12,23 +12,27 @@ internal class PrefManager(context: Context) {
 
     private val defValue = ProgressOfEliminatingOptimizations.NotStarted.value
 
-    private fun getKey(action: KillerManagerActionType) =
-        when (action) {
-            KillerManagerActionType.ActionPowerSaving -> "power_saving"
-            KillerManagerActionType.ActionAutoStart -> "auto_start"
-            KillerManagerActionType.ActionNotifications -> "notification"
-        }
+    private val Intent.name: String
+        inline get() = component.toString()
 
-    fun setProgressStatus(
-        action: KillerManagerActionType,
-        status: ProgressOfEliminatingOptimizations
-    ) =
-        pref.edit { putInt(getKey(action), status.value) }
+    fun getProgressStatusList(
+        intentList: List<Intent>
+    ): List<Pair<Intent, ProgressOfEliminatingOptimizations>> =
+        intentList.map { it to getProgressStatus(it) }
 
-    fun getProgressStatus(action: KillerManagerActionType): ProgressOfEliminatingOptimizations =
+    private fun getProgressStatus(intent: Intent): ProgressOfEliminatingOptimizations =
         pref
-            .getInt(getKey(action), defValue)
+            .getInt(intent.name, defValue)
             .takeIf { it != defValue }
             ?.let { convertToProgress(it) }
             ?: ProgressOfEliminatingOptimizations.NotStarted
+
+    fun setProgressStatusList(
+        intentList: List<Intent>,
+        status: ProgressOfEliminatingOptimizations
+    ) =
+        pref.edit {
+            for (intent in intentList)
+                putInt(intent.name, status.value)
+        }
 }

@@ -1,9 +1,20 @@
 package com.thelittlefireman.appkillermanager.utils
 
+import android.content.Intent
+
 object LogUtils {
-    var logCustomListener: ((tag: String, message: String?, exception: Exception) -> Unit)? = null
+    var logCustomListener: LogListener? = null
+
+    interface LogListener {
+        fun e(tag: String, message: String?, exception: Exception)
+        fun intentNotAvailable(intent: Intent)
+    }
 
     inline fun <reified T> e(exception: Exception, message: String? = null) {
-        logCustomListener?.invoke(T::class.java.name, message, exception)
+        logCustomListener?.e(T::class.java.name, message, exception)
+    }
+
+    fun intentNotAvailable(intent: Intent) {
+        logCustomListener?.intentNotAvailable(intent)
     }
 }

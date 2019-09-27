@@ -38,16 +38,11 @@ object ActionUtils {
     ): Boolean =
         isIntentAvailable(packageManager, createIntent(componentName, actionIntent))
 
-    fun isAtLeastOneIntentAvailable(
+    fun filterAvailableIntents(
         packageManager: PackageManager,
         intentList: List<Intent>
-    ): Boolean =
-        intentList.firstOrNull { isIntentAvailable(packageManager, it) } != null
-
-    fun isIntentAvailable(packageManager: PackageManager, intent: Intent): Boolean =
-        packageManager
-            .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-            .isNotEmpty()
+    ): List<Intent> =
+        intentList.filter { isIntentAvailable(packageManager, it) }
 
     fun getFirstAvailableActionOrNull(
         packageManager: PackageManager,
@@ -79,5 +74,20 @@ object ActionUtils {
             ?.let { return KillerManagerAction(type, it) }
 
         return null
+    }
+
+    fun isAtLeastOneIntentAvailable(
+        packageManager: PackageManager,
+        intentList: List<Intent>
+    ): Boolean =
+        intentList.firstOrNull { isIntentAvailable(packageManager, it) } != null
+
+    private fun isIntentAvailable(packageManager: PackageManager, intent: Intent): Boolean {
+        val available = packageManager
+            .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            .isNotEmpty()
+        if (!available)
+            LogUtils.intentNotAvailable(intent)
+        return available
     }
 }
