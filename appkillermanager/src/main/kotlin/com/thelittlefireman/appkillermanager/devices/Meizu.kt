@@ -10,6 +10,7 @@ import android.util.Log
 import com.thelittlefireman.appkillermanager.models.KillerManagerAction
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
 import com.thelittlefireman.appkillermanager.utils.ActionUtils
+import com.thelittlefireman.appkillermanager.utils.LogUtils
 import com.thelittlefireman.appkillermanager.utils.Manufacturer
 
 class Meizu : DeviceAbstract() {
@@ -120,7 +121,7 @@ class Meizu : DeviceAbstract() {
                         .versionName
                 )
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+            LogUtils.e<Meizu>(e)
         }
 
         // ----- PACKAGE INFORMATIONS -----

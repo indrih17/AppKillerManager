@@ -9,6 +9,7 @@ import android.util.Log
 import com.thelittlefireman.appkillermanager.models.KillerManagerAction
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
 import com.thelittlefireman.appkillermanager.utils.ActionUtils
+import com.thelittlefireman.appkillermanager.utils.LogUtils
 import com.thelittlefireman.appkillermanager.utils.Manufacturer
 import com.thelittlefireman.appkillermanager.utils.SystemUtils.emuiRomName
 
@@ -85,7 +86,7 @@ class Huawei : DeviceAbstract() {
                         .versionName
                 )
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+            LogUtils.e<Huawei>(e)
         }
 
         return stringBuilder.toString()
@@ -134,7 +135,7 @@ class Huawei : DeviceAbstract() {
                     thirdPartFirstDigit = Integer.valueOf(versionTmp[2].substring(0, 1))
 
             } catch (e: Exception) {
-                e.printStackTrace()
+                LogUtils.e<Huawei>(e)
             }
 
             if (versionNum >= 330)

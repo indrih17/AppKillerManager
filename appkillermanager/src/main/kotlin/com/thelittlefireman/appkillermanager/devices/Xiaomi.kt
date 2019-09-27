@@ -113,7 +113,7 @@ class Xiaomi : DeviceAbstract() {
             try {
                 SystemUtils.getSystemProperty(versionNameProperty) ?: ""
             } catch (e: Exception) {
-                LogUtils.e(SystemUtils::class.java.name, e)
+                LogUtils.e<SystemUtils>(e)
                 ""
             }
     }

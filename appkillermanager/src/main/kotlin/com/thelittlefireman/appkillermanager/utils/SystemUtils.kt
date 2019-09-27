@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Process
 import android.os.UserManager
-import android.util.Log
 import androidx.annotation.RequiresApi
 import java.io.BufferedReader
 import java.io.IOException
@@ -36,7 +35,7 @@ object SystemUtils {
                 .getApplicationLabel(appInfo)
                 .toString()
         } catch (e: PackageManager.NameNotFoundException) {
-            LogUtils.e(SystemUtils::class.java.name, e)
+            LogUtils.e<SystemUtils>(e)
             "Unknown"
         }
 
@@ -47,10 +46,9 @@ object SystemUtils {
                 return input.readLine()
             }
         } catch (ex: IOException) {
-            Log.e(
-                SystemUtils::class.java.javaClass.name,
-                "Unable to read system property $propName",
-                ex
+            LogUtils.e<SystemUtils>(
+                ex,
+                "Unable to read system property $propName"
             )
             return null
         }
