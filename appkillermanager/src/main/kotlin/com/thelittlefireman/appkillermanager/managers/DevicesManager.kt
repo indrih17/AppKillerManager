@@ -1,6 +1,6 @@
 package com.thelittlefireman.appkillermanager.managers
 
-import arrow.core.Either
+import com.thelittlefireman.appkillermanager.Either
 import com.thelittlefireman.appkillermanager.UnknownDeviceFail
 import com.thelittlefireman.appkillermanager.devices.*
 import com.thelittlefireman.appkillermanager.utils.SystemUtils

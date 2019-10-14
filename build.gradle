@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath 'com.novoda:bintray-release:0.9.1'
@@ -34,8 +34,8 @@ allprojects {
 }
 
 ext {
-    libVersionCode = 10
-    libVersionName = '0.3.3'
+    libVersionCode = 11
+    libVersionName = '0.3.4'
 }
 
 task clean(type: Delete) {

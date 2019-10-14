@@ -3,7 +3,7 @@ package com.thelittlefireman.appkillermanager.managers
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import arrow.core.Either
+import com.thelittlefireman.appkillermanager.Either
 import com.thelittlefireman.appkillermanager.IntentListForActionNotFoundFail
 import com.thelittlefireman.appkillermanager.devices.DeviceBase
 import com.thelittlefireman.appkillermanager.models.KillerManagerActionType
