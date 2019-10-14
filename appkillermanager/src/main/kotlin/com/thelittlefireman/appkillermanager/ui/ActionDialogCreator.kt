@@ -43,11 +43,17 @@ open class ActionDialogCreator(
                 .fold(
                     ifLeft = onFailure,
                     ifRight = { availableIntents ->
-                        activity.showDialog(
-                            messageForUser = messageRes,
-                            okButton = { actionAgreed(actionType, availableIntents) },
-                            noButton = { actionDenied(availableIntents) }
-                        )
+                        val intentsToShow = prefManager
+                            .getProgressStatusList(availableIntents)
+                            .filter { (_, status) -> status.needToShow() }
+                            .map { (intent, _) -> intent }
+
+                        if (intentsToShow.isNotEmpty())
+                            activity.showDialog(
+                                messageForUser = messageRes,
+                                okButton = { actionAgreed(actionType, intentsToShow) },
+                                noButton = { actionDenied(intentsToShow) }
+                            )
                     }
                 )
     }
@@ -64,17 +70,12 @@ open class ActionDialogCreator(
                 device.isActionNotificationAvailable()
         }
 
-    private fun actionAgreed(actionType: KillerManagerActionType, availableIntents: List<Intent>) {
-        val intentsToShow = prefManager
-            .getProgressStatusList(availableIntents)
-            .filter { (_, status) -> status.needToShow() }
-            .map { (intent, _) -> intent }
-
+    private fun actionAgreed(actionType: KillerManagerActionType, intentsToShow: List<Intent>) {
         prefManager.setProgressStatusList(
             intentsToShow,
             ProgressOfEliminatingOptimizations.UserAgreed
         )
-        intentList = availableIntents
+        intentList = intentsToShow
         currentAction = actionType
         KillerManager.doAction(activity, intentsToShow, actionType)
     }

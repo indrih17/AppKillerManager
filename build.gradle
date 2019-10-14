@@ -34,8 +34,8 @@ allprojects {
 }
 
 ext {
-    libVersionCode = 11
-    libVersionName = '0.3.4'
+    libVersionCode = 12
+    libVersionName = '0.3.5'
 }
 
 task clean(type: Delete) {

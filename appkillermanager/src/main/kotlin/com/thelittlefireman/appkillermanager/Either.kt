@@ -62,7 +62,7 @@ sealed class Either<out A, out B> {
      */
     @Suppress("UNCHECKED_CAST")
     inline fun <C> map(f: (B) -> C): Either<A, C> =
-            flatMap { Right(f(it)) }
+        flatMap { Right(f(it)) }
 
     /**
      * The given function is applied if this is a `Left`.
@@ -74,13 +74,13 @@ sealed class Either<out A, out B> {
      * ```
      */
     inline fun <C> mapLeft(f: (A) -> C): Either<C, B> =
-            fold({ Left(f(it)) }, { Right(it) })
+        fold({ Left(f(it)) }, { Right(it) })
 
     /**
      * Map over Left and Right of this Either
      */
     inline fun <C, D> bimap(leftOperation: (A) -> C, rightOperation: (B) -> D): Either<C, D> =
-            fold({ Left(leftOperation(it)) }, { Right(rightOperation(it)) })
+        fold({ Left(leftOperation(it)) }, { Right(rightOperation(it)) })
 
     /**
      * Returns `false` if [Left] or returns the result of the application of
@@ -96,7 +96,7 @@ sealed class Either<out A, out B> {
      * ```
      */
     inline fun exists(predicate: (B) -> Boolean): Boolean =
-            fold({ false }, { predicate(it) })
+        fold({ false }, { predicate(it) })
 
     /**
      * The left side of the disjoint union, as opposed to the [Right] side.
@@ -139,10 +139,10 @@ sealed class Either<out A, out B> {
  * @param f The function to bind across [Either.Right].
  */
 inline fun <A, B, C> Either<A, B>.flatMap(f: (B) -> Either<A, C>): Either<A, C> =
-        when (this) {
-            is Either.Right -> f(b)
-            is Either.Left -> this
-        }
+    when (this) {
+        is Either.Right -> f(b)
+        is Either.Left -> this
+    }
 
 /**
  * Returns the value from this [Either.Right] or the given argument if this is a [Either.Left].
@@ -154,7 +154,7 @@ inline fun <A, B, C> Either<A, B>.flatMap(f: (B) -> Either<A, C>): Either<A, C> 
  * ```
  */
 inline fun <reified B> Either<*, B>.getOrElse(default: () -> B): B =
-        fold({ default() }, ::identity)
+    fold({ default() }, ::identity)
 
 /**
  * Returns the value from this [Either.Right] or null if this is a [Either.Left].
@@ -166,7 +166,7 @@ inline fun <reified B> Either<*, B>.getOrElse(default: () -> B): B =
  * ```
  */
 inline fun <reified B> Either<*, B>.orNull(): B? =
-        getOrElse { null }
+    getOrElse { null }
 
 /**
  * Returns the value from this [Either.Right] or allows clients to transform [Either.Left] to [Either.Right] while providing access to
@@ -179,7 +179,7 @@ inline fun <reified B> Either<*, B>.orNull(): B? =
  * ```
  */
 inline fun <reified A, reified B> Either<A, B>.getOrHandle(default: (A) -> B): B =
-        fold({ default(it) }, ::identity)
+    fold({ default(it) }, ::identity)
 
 /**
  * * Returns [Either.Right] with the existing value of [Either.Right] if this is a [Either.Right] and the given
@@ -209,11 +209,14 @@ inline fun <reified A, reified B> Either<A, B>.getOrHandle(default: (A) -> B): B
  * left.filterOrOther({ it > 10 }, { -1 })
  * ```
  */
-inline fun <A, B> Either<A, B>.filterOrOther(predicate: (B) -> Boolean, default: (B) -> A): Either<A, B> =
-        flatMap {
-            if (predicate(it)) Either.Right(it)
-            else Either.Left(default(it))
-        }
+inline fun <A, B> Either<A, B>.filterOrOther(
+    predicate: (B) -> Boolean,
+    default: (B) -> A
+): Either<A, B> =
+    flatMap {
+        if (predicate(it)) Either.Right(it)
+        else Either.Left(default(it))
+    }
 
 /**
  * * Returns [Either.Right] with the existing value of [Either.Right] if this is an [Either.Right] with a non-null value.
@@ -230,7 +233,7 @@ inline fun <A, B> Either<A, B>.filterOrOther(predicate: (B) -> Boolean, default:
  * ```
  */
 inline fun <A, B> Either<A, B?>.leftIfNull(crossinline default: () -> A): Either<A, B> =
-        flatMap { it.rightIfNotNull { default() } }
+    flatMap { it.rightIfNotNull { default() } }
 
 
 fun <A> A.left(): Either<A, Nothing> = Either.Left(this)
