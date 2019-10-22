@@ -37,25 +37,29 @@ open class ActionDialogCreator(
     }
 
     fun showDialogForAction(actionType: KillerManagerActionType, messageRes: Int) {
-        if (actionType.isAvailable(activity))
-            KillerManager
-                .getAvailableIntentsFromActionType(activity, device, actionType)
-                .fold(
-                    ifLeft = onFailure,
-                    ifRight = { availableIntents ->
-                        val intentsToShow = prefManager
-                            .getProgressStatusList(availableIntents)
-                            .filter { (_, status) -> status.needToShow() }
-                            .map { (intent, _) -> intent }
+        try {
+            if (actionType.isAvailable(activity))
+                KillerManager
+                    .getAvailableIntentsFromActionType(activity, device, actionType)
+                    .fold(
+                        ifLeft = onFailure,
+                        ifRight = { availableIntents ->
+                            val intentsToShow = prefManager
+                                .getProgressStatusList(availableIntents)
+                                .filter { (_, status) -> status.needToShow() }
+                                .map { (intent, _) -> intent }
 
-                        if (intentsToShow.isNotEmpty())
-                            activity.showDialog(
-                                messageForUser = messageRes,
-                                okButton = { actionAgreed(actionType, intentsToShow) },
-                                noButton = { actionDenied(intentsToShow) }
-                            )
-                    }
-                )
+                            if (intentsToShow.isNotEmpty())
+                                activity.showDialog(
+                                    messageForUser = messageRes,
+                                    okButton = { actionAgreed(actionType, intentsToShow) },
+                                    noButton = { actionDenied(intentsToShow) }
+                                )
+                        }
+                    )
+        } catch (e: Exception) {
+            onFailure(InternalFail("ActionDialogCreator", "", e))
+        }
     }
 
     private fun KillerManagerActionType.isAvailable(context: Context) =
@@ -87,14 +91,19 @@ open class ActionDialogCreator(
         )
 
     fun onActivityResult(requestCode: Int) {
-        val intents = intentList ?: return
-        val action = currentAction ?: return
-        val actionHandled = KillerManager.onActivityResult(activity, intents, action, requestCode)
-        if (actionHandled)
-            prefManager.setProgressStatusList(
-                intents,
-                ProgressOfEliminatingOptimizations.Completed
-            )
+        try {
+            val intents = intentList ?: return
+            val action = currentAction ?: return
+            val actionHandled =
+                KillerManager.onActivityResult(activity, intents, action, requestCode)
+            if (actionHandled)
+                prefManager.setProgressStatusList(
+                    intents,
+                    ProgressOfEliminatingOptimizations.Completed
+                )
+        } catch (e: Exception) {
+            onFailure(InternalFail("ActionDialogCreator", "", e))
+        }
     }
 
     protected open fun Context.showDialog(
